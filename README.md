@@ -1,38 +1,40 @@
-# 13Spookz37 Portfolio
+# Cybersecurity Portfolio von 13Spookz37
 
-Willkommen auf meinem persönlichen Cybersecurity-Portfolio!
+Willkommen in meinem persönlichen Cybersecurity-Portfolio!
 
-Dieses Repository hostet meine GitHub Pages Webseite mit dem Jekyll Hacker-Theme. Hier präsentiere ich meine Projekte, CTF-Erfahrungen und Lernfortschritte im Bereich Penetration Testing und IT-Sicherheit.
-
----
-
-## Über mich
-
-Ich bin ein angehender Penetration Tester mit Fokus auf Netzwerksicherheit, Betriebssysteme und praktische Sicherheitstools.  
-Derzeit erweitere ich meine Fähigkeiten durch Hands-on Trainings auf Plattformen wie TryHackMe und Hack The Box sowie berufsbegleitende Cybersecurity-Kurse.
+Ich bin ein angehender Penetrationstester und IT-Sicherheitsenthusiast, der sich kontinuierlich weiterentwickelt und praktische Erfahrungen in Netzwerksicherheit, Pentesting und Red Teaming sammelt.
 
 ---
 
-## Inhalte dieser Seite
+## 🚀 Aktuelle Schwerpunkte
 
-- Portfolio und abgeschlossene CTFs  
-- Lernprojekte und Testumgebungen (z.B. Metasploitable2/3)  
-- Blogartikel zu Security-Themen (geplant)
-
----
-
-## Technisches Setup
-
-- Jekyll-basiert mit dem offiziellen GitHub Pages [Hacker Theme](https://github.com/pages-themes/hacker)  
-- Quellcode liegt im `main` Branch, die Seite ist unter https://13Spookz37.github.io/ verfügbar  
-- Inhalte werden in Markdown geschrieben und über Jekyll in statische Seiten umgewandelt
+- Netzwerksicherheit (Wireshark, Tcpdump, Nmap)  
+- Penetration Testing & Red Teaming Grundlagen  
+- CTF Challenges (TryHackMe, Hack The Box)  
+- Aufbau eigener Testumgebungen (Metasploitable2-3)  
 
 ---
 
-## Feedback & Kontakt
+## 📂 Inhalt dieses Repositories
 
-Für Fragen oder Kollaborationen könnt ihr mich gerne über GitHub kontaktieren oder LinkedIn besuchen.
+- `index.md` – Meine Portfolio-Seite für GitHub Pages  
+- `screenshots/` – Beispiel-Screenshots von Analysen & Testumgebungen  
+- `docs/` – Platz für detaillierte Berichte und Notizen (optional)  
+- `certificates/` – Platzhalter für digitale Zertifikate (zukünftig)
 
 ---
 
-**Letzte Aktualisierung:** 27. Mai 2025  
+## 📬 Kontakt
+
+Bei Fragen oder Interesse an Zusammenarbeit erreichst du mich unter:  
+`deine.email@example.com`  
+
+LinkedIn: [Platzhalter-Link]
+
+---
+
+*Diese Seite wird mit GitHub Pages und Jekyll betrieben.*
+
+---
+
+**Hinweis:** Aktuelle Trainings und Zertifikate findest du auf meiner Portfolio-Seite (siehe `index.md`).
