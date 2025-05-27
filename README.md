@@ -37,4 +37,4 @@ LinkedIn: [Platzhalter-Link]
 
 ---
 
-**Hinweis:** Aktuelle Trainings und Zertifikate findest du auf meiner Portfolio-Seite (siehe `index.md`).
+**Hinweis:** Aktuelle Trainings und Zertifikate findest du auf meiner Portfolio-Seite (siehe [index.md](https://13spookz37.github.io/)).
