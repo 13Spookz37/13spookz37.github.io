@@ -27,7 +27,7 @@ Ich bin ein angehender Penetrationstester und IT-Sicherheitsenthusiast, der sich
 ## 📬 Kontakt
 
 Bei Fragen oder Interesse an Zusammenarbeit erreichst du mich unter:  
-`deine.email@example.com`  
+`meine.email@example.com`  
 
 LinkedIn: [Platzhalter-Link]
 
