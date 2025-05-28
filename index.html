@@ -2,108 +2,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Under Construction</title>
+  <title>13Spookz37 | Under Construction</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      background-color: #0f0f0f;
-      color: #00ff00;
+      background: #0f0f0f;
+      color: #39ff14;
       font-family: 'Share Tech Mono', monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
       overflow: hidden;
-    }
-    .terminal {
-      background-color: #1a1a1a;
-      border: 2px solid #00ff00;
-      border-radius: 5px;
-      padding: 20px;
-      width: 90%;
-      max-width: 800px;
-      box-shadow: 0 0 20px #00ff00;
-      position: relative;
-    }
-    .terminal::before {
-      content: 'root@13spookz37:~#';
-      display: block;
-      color: #00ff00;
-      padding-bottom: 5px;
-    }
-    .output {
-      white-space: pre-wrap;
-      animation: scrollText 20s linear infinite;
-      max-height: 300px;
-      overflow: hidden;
-    }
-    @keyframes scrollText {
-      0% { transform: translateY(100%); }
-      100% { transform: translateY(-100%); }
-    }
-    .cursor {
-      display: inline-block;
-      width: 10px;
-      height: 18px;
-      background-color: #00ff00;
-      margin-left: 5px;
-      animation: blink 1s steps(1) infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 0; }
-      50% { opacity: 1; }
-    }
-    .preview-box {
-      background: #111;
-      border: 1px solid #00ff00;
-      border-radius: 4px;
-      margin-top: 20px;
-      padding: 15px;
-      width: 100%;
-      max-width: 800px;
-      color: #00ffcc;
-    }
-    .preview-box h2 {
-      color: #00ffaa;
-      border-bottom: 1px dashed #00ffaa;
-      padding-bottom: 5px;
-      margin-bottom: 10px;
-    }
-    audio { display: none; }
+    }.terminal {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #39ff14;
+  border-radius: 8px;
+  width: 90vw;
+  max-width: 800px;
+  padding: 1rem;
+  box-shadow: 0 0 20px #39ff14;
+}
+
+.output {
+  white-space: pre-line;
+  overflow-y: auto;
+  height: 400px;
+}
+
+.cursor {
+  display: inline-block;
+  width: 10px;
+  background: #39ff14;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.glitch {
+  animation: glitch 1s infinite;
+}
+
+@keyframes glitch {
+  0% { text-shadow: 2px 0 red, -2px 0 blue; }
+  20% { text-shadow: -2px 0 red, 2px 0 blue; }
+  40% { text-shadow: 2px 0 red, -2px 0 blue; }
+  60% { text-shadow: -2px 0 red, 2px 0 blue; }
+  100% { text-shadow: none; }
+}
+
+iframe {
+  margin-top: 1rem;
+  width: 100%;
+  height: 250px;
+  border: none;
+  border-radius: 4px;
+}
+
   </style>
 </head>
 <body>
   <div class="terminal">
-    <div class="output">
-      Initializing system...✔️\n
-      Loading exploits...✔️\n
-      Connecting to remote host...✔️\n
-      Gathering intel...✔️\n
-      Accessing restricted nodes...✔️\n
-      Waiting for payload execution...✔️\n
-      Deploying C2 framework...✔️\n
-      ...\n      [Status: Monitoring]\n
-      ...⏳
+    <div class="output" id="terminal-output">
+      <div class="glitch">13Spookz37 Cyberpunk Terminal Interface</div>
+      <br />
+      booting...
+      <br />
     </div>
-    <div class="cursor"></div>
-  </div>  <div class="preview-box">
-    <h2>🔒 Zertifikate (Coming Soon)</h2>
-    <ul>
-      <li>Google Cybersecurity Certificate (In Arbeit)</li>
-      <li>TryHackMe Cyber Security 101 (Wird fortgesetzt)</li>
-    </ul>
-  </div>  <div class="preview-box">
-    <h2>🧠 Projekte & CTFs</h2>
-    <ul>
-      <li>TryHackMe Labs – Linux, Windows, Netzwerk & Wireshark</li>
-      <li>Eigene Testumgebungen mit Metasploitable</li>
-      <li>Geplante HTB-Journey & Junior PenTesting Path</li>
-    </ul>
-  </div>  <audio autoplay loop>
-    <source src="https://assets.mixkit.co/sfx/download/mixkit-techno-ui-interface-2515.wav" type="audio/wav">
-    Your browser does not support the audio element.
-  </audio>
-</body>
+    <div>> <span id="typewriter"></span><span class="cursor"></span></div>
+  </div>  <audio autoplay loop volume="0.3">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>  <script>
+    const output = document.getElementById('terminal-output');
+    const typewriter = document.getElementById('typewriter');
+    const lines = [
+      'Loading Projects...',
+      'Checking Certificates...',
+      'Fetching TryHackMe Progress...',
+      'System Integrity: OK',
+      'Launching Preview Modules...'
+    ];
+
+    let i = 0;
+    function loopLines() {
+      if (i < lines.length) {
+        typeLine(lines[i], () => {
+          output.innerHTML += `> ${lines[i]}\n`;
+          i++;
+          setTimeout(loopLines, 800);
+        });
+      } else {
+        setTimeout(() => { i = 0; loopLines(); }, 4000);
+      }
+    }
+
+    function typeLine(text, callback) {
+      let j = 0;
+      typewriter.textContent = '';
+      const interval = setInterval(() => {
+        if (j < text.length) {
+          typewriter.textContent += text.charAt(j);
+          j++;
+        } else {
+          clearInterval(interval);
+          callback();
+        }
+      }, 50);
+    }
+
+    loopLines();
+  </script></body>
 </html>
