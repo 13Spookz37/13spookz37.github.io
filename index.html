@@ -1,99 +1,109 @@
-<!DOCTYPE html><html lang="de">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio - Under Construction</title>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <title>Under Construction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
+      margin: 0;
+      background-color: #0f0f0f;
+      color: #00ff00;
       font-family: 'Share Tech Mono', monospace;
-      background: radial-gradient(ellipse at center, #0f0f0f 0%, #050505 100%);
-      color: #00ffea;
-      overflow: hidden;
-      height: 100vh;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
-    }
-    h1 {
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea;
-      animation: glitch 2s infinite;
-    }
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
     }
     .terminal {
-      background: rgba(0, 0, 0, 0.85);
-      border: 2px solid #00ffea;
-      padding: 1.5rem;
+      background-color: #1a1a1a;
+      border: 2px solid #00ff00;
+      border-radius: 5px;
+      padding: 20px;
       width: 90%;
-      max-width: 600px;
-      height: 250px;
-      overflow-y: auto;
-      font-size: 1rem;
-      box-shadow: 0 0 15px #00ffea;
+      max-width: 800px;
+      box-shadow: 0 0 20px #00ff00;
+      position: relative;
     }
-    @keyframes glitch {
-      0% { text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea; }
-      50% { text-shadow: 2px 2px 10px #ff00ff, -2px -2px 10px #00ffff; }
-      100% { text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea; }
+    .terminal::before {
+      content: 'root@13spookz37:~#';
+      display: block;
+      color: #00ff00;
+      padding-bottom: 5px;
+    }
+    .output {
+      white-space: pre-wrap;
+      animation: scrollText 20s linear infinite;
+      max-height: 300px;
+      overflow: hidden;
+    }
+    @keyframes scrollText {
+      0% { transform: translateY(100%); }
+      100% { transform: translateY(-100%); }
     }
     .cursor {
       display: inline-block;
       width: 10px;
-      height: 20px;
-      background: #00ffea;
-      animation: blink 1s infinite;
+      height: 18px;
+      background-color: #00ff00;
       margin-left: 5px;
+      animation: blink 1s steps(1) infinite;
     }
     @keyframes blink {
-      0%, 50%, 100% { opacity: 1; }
-      25%, 75% { opacity: 0; }
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
     }
-    .footer {
-      position: absolute;
-      bottom: 1rem;
-      font-size: 0.9rem;
-      color: #666;
+    .preview-box {
+      background: #111;
+      border: 1px solid #00ff00;
+      border-radius: 4px;
+      margin-top: 20px;
+      padding: 15px;
+      width: 100%;
+      max-width: 800px;
+      color: #00ffcc;
     }
+    .preview-box h2 {
+      color: #00ffaa;
+      border-bottom: 1px dashed #00ffaa;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+    audio { display: none; }
   </style>
 </head>
 <body>
-  <h1>[ Portfolio in Entwicklung... ]</h1>
-  <p>Cyberpunk Interface geladen...</p>  <div class="terminal" id="terminal">
-    <p>> Initiating boot sequence...</p>
-    <p>> Loading modules: [███████████████░░░░░░░░░░░░░] 53%</p>
-    <p>> Establishing encrypted channels...</p>
-    <p>> Injecting neural overlays...</p>
-    <p>> Portfolio-Modul aktiv - Warten auf weitere Inhalte<span class="cursor"></span></p>
-  </div>  <div class="footer">&copy; 2025 13Spookz37 | CyberSec Portfolio</div>  <script>
-    const lines = [
-      "> Scanning perimeter...",
-      "> Detecting open ports...",
-      "> Enumerating services...",
-      "> Initial access vector ready.",
-      "> Red Team protocol initialized..."
-    ];
-
-    let i = 0;
-    const term = document.getElementById("terminal");
-    setInterval(() => {
-      if (i < lines.length) {
-        const line = document.createElement("p");
-        line.textContent = lines[i];
-        term.appendChild(line);
-        term.scrollTop = term.scrollHeight;
-        i++;
-      }
-    }, 3000);
-  </script></body>
+  <div class="terminal">
+    <div class="output">
+      Initializing system...✔️\n
+      Loading exploits...✔️\n
+      Connecting to remote host...✔️\n
+      Gathering intel...✔️\n
+      Accessing restricted nodes...✔️\n
+      Waiting for payload execution...✔️\n
+      Deploying C2 framework...✔️\n
+      ...\n      [Status: Monitoring]\n
+      ...⏳
+    </div>
+    <div class="cursor"></div>
+  </div>  <div class="preview-box">
+    <h2>🔒 Zertifikate (Coming Soon)</h2>
+    <ul>
+      <li>Google Cybersecurity Certificate (In Arbeit)</li>
+      <li>TryHackMe Cyber Security 101 (Wird fortgesetzt)</li>
+    </ul>
+  </div>  <div class="preview-box">
+    <h2>🧠 Projekte & CTFs</h2>
+    <ul>
+      <li>TryHackMe Labs – Linux, Windows, Netzwerk & Wireshark</li>
+      <li>Eigene Testumgebungen mit Metasploitable</li>
+      <li>Geplante HTB-Journey & Junior PenTesting Path</li>
+    </ul>
+  </div>  <audio autoplay loop>
+    <source src="https://assets.mixkit.co/sfx/download/mixkit-techno-ui-interface-2515.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+</body>
 </html>
