@@ -1,84 +1,99 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html><html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>13Spookz37 | Cyberpunk Portfolio</title>
+  <title>Portfolio - Under Construction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');body {
-  margin: 0;
-  background-color: #0f0f0f;
-  color: #00ffea;
-  font-family: 'Share Tech Mono', monospace;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  overflow: hidden;
-  background-image: radial-gradient(circle, #222 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-h1 {
-  font-size: 3rem;
-  margin: 0.5em 0;
-  color: #00fff7;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
-}
-
-.subtext {
-  font-size: 1.2rem;
-  color: #00ffd0;
-  margin-bottom: 2em;
-}
-
-.terminal {
-  background-color: rgba(0, 0, 0, 0.8);
-  border: 1px solid #00ffe5;
-  padding: 20px;
-  max-width: 700px;
-  width: 90%;
-  font-size: 1rem;
-  line-height: 1.4em;
-  box-shadow: 0 0 15px #0ff;
-  white-space: pre-wrap;
-}
-
-.blinker {
-  animation: blink 1s step-start infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-footer {
-  position: absolute;
-  bottom: 10px;
-  color: #00ffea;
-  font-size: 0.9rem;
-}
-
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: radial-gradient(ellipse at center, #0f0f0f 0%, #050505 100%);
+      color: #00ffea;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea;
+      animation: glitch 2s infinite;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .terminal {
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid #00ffea;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 600px;
+      height: 250px;
+      overflow-y: auto;
+      font-size: 1rem;
+      box-shadow: 0 0 15px #00ffea;
+    }
+    @keyframes glitch {
+      0% { text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea; }
+      50% { text-shadow: 2px 2px 10px #ff00ff, -2px -2px 10px #00ffff; }
+      100% { text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea; }
+    }
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 20px;
+      background: #00ffea;
+      animation: blink 1s infinite;
+      margin-left: 5px;
+    }
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+    .footer {
+      position: absolute;
+      bottom: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
   </style>
 </head>
 <body>
-  <h1>13Spookz37</h1>
-  <div class="subtext">Cybersecurity Enthusiast & Future Pentester</div>
-  <div class="terminal">
-    Initializing system...
-    <br>> Building lab environment...
-    <br>> Loading skills: Networking, Linux, Windows, Wireshark...
-    <br>> Current status: <strong>Under Construction</strong>
-    <br><br>> Upcoming:
-    <br>  - CTF & TryHackMe Stats
-    <br>  - Certificates
-    <br>  - Projects & GitHub Links
-    <br><br>> Stay tuned<span class="blinker">_</span>
-  </div>
-  <footer>
-    &copy; 2025 - 13Spookz37 | All rights reserved.
-  </footer>
-</body>
+  <h1>[ Portfolio in Entwicklung... ]</h1>
+  <p>Cyberpunk Interface geladen...</p>  <div class="terminal" id="terminal">
+    <p>> Initiating boot sequence...</p>
+    <p>> Loading modules: [███████████████░░░░░░░░░░░░░] 53%</p>
+    <p>> Establishing encrypted channels...</p>
+    <p>> Injecting neural overlays...</p>
+    <p>> Portfolio-Modul aktiv - Warten auf weitere Inhalte<span class="cursor"></span></p>
+  </div>  <div class="footer">&copy; 2025 13Spookz37 | CyberSec Portfolio</div>  <script>
+    const lines = [
+      "> Scanning perimeter...",
+      "> Detecting open ports...",
+      "> Enumerating services...",
+      "> Initial access vector ready.",
+      "> Red Team protocol initialized..."
+    ];
+
+    let i = 0;
+    const term = document.getElementById("terminal");
+    setInterval(() => {
+      if (i < lines.length) {
+        const line = document.createElement("p");
+        line.textContent = lines[i];
+        term.appendChild(line);
+        term.scrollTop = term.scrollHeight;
+        i++;
+      }
+    }, 3000);
+  </script></body>
 </html>
