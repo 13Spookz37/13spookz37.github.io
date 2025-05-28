@@ -1,47 +1,84 @@
-<!DOCTYPE html>
-<html lang="de">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Seite im Aufbau</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>13Spookz37 | Cyberpunk Portfolio</title>
   <style>
-    body {
-      background-color: #121212;
-      color: #f0f0f0;
-      font-family: 'Courier New', Courier, monospace;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-    }
-    h1 {
-      font-size: 3em;
-      margin-bottom: 0.3em;
-      color: #00ff00;
-      text-shadow: 0 0 10px #00ff00;
-    }
-    p {
-      font-size: 1.3em;
-      max-width: 400px;
-      line-height: 1.5;
-      color: #ccc;
-    }
-    footer {
-      position: fixed;
-      bottom: 10px;
-      font-size: 0.9em;
-      color: #555;
-      font-style: italic;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');body {
+  margin: 0;
+  background-color: #0f0f0f;
+  color: #00ffea;
+  font-family: 'Share Tech Mono', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  background-image: radial-gradient(circle, #222 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin: 0.5em 0;
+  color: #00fff7;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+}
+
+.subtext {
+  font-size: 1.2rem;
+  color: #00ffd0;
+  margin-bottom: 2em;
+}
+
+.terminal {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #00ffe5;
+  padding: 20px;
+  max-width: 700px;
+  width: 90%;
+  font-size: 1rem;
+  line-height: 1.4em;
+  box-shadow: 0 0 15px #0ff;
+  white-space: pre-wrap;
+}
+
+.blinker {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+footer {
+  position: absolute;
+  bottom: 10px;
+  color: #00ffea;
+  font-size: 0.9rem;
+}
+
   </style>
 </head>
 <body>
-  <h1>🚧 Seite im Aufbau 🚧</h1>
-  <p>Vielen Dank für dein Interesse! Meine Cybersecurity Portfolio-Seite ist aktuell noch im Aufbau.<br>
-  Bitte komm bald wieder vorbei.</p>
-  <footer>13Spookz37</footer>
+  <h1>13Spookz37</h1>
+  <div class="subtext">Cybersecurity Enthusiast & Future Pentester</div>
+  <div class="terminal">
+    Initializing system...
+    <br>> Building lab environment...
+    <br>> Loading skills: Networking, Linux, Windows, Wireshark...
+    <br>> Current status: <strong>Under Construction</strong>
+    <br><br>> Upcoming:
+    <br>  - CTF & TryHackMe Stats
+    <br>  - Certificates
+    <br>  - Projects & GitHub Links
+    <br><br>> Stay tuned<span class="blinker">_</span>
+  </div>
+  <footer>
+    &copy; 2025 - 13Spookz37 | All rights reserved.
+  </footer>
 </body>
 </html>
