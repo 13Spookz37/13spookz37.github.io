@@ -2,90 +2,169 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>13Spookz37 | Pentesting Lab</title>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <title>Cyberpunk Terminal</title>
   <style>
-    body {
-      margin: 0;
-      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
-      color: #00fff7;
-      font-family: 'Share Tech Mono', monospace;
-      overflow-x: hidden;
-    }
-    .cli {
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 2rem;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 900px;
-      margin: 2rem auto;
-      box-shadow: 0 0 20px #0ff;
-      position: relative;
-      z-index: 2;
-    }
-    .cli::before {
-      content: "13Spookz@RedTeam-terminal:~$";
-      color: #ff00cc;
-      display: block;
-      margin-bottom: 10px;
-    }
-    .typewriter {
-      overflow: hidden;
-      border-right: 0.15em solid #00fff7;
-      white-space: nowrap;
-      animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
-    }
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink-caret {
-      from, to { border-color: transparent }
-      50% { border-color: #00fff7; }
-    }
-    .preview-section {
-      max-width: 1000px;
-      margin: 4rem auto;
-      padding: 2rem;
-      background-color: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      color: #fff;
-    }
-    .preview-section h2 {
-      color: #ff00cc;
-      border-bottom: 1px solid #ff00cc;
-      padding-bottom: 0.5rem;
-    }
-    .project {
-      margin-bottom: 2rem;
-    }
-    .project h3 {
-      color: #00fff7;
-    }
-    .project p {
-      color: #ccc;
-    }
+    :root {
+      --neon-green: #39ff14;
+      --neon-blue: #00f0ff;
+      --neon-pink: #ff0080;
+      --bg-dark: #0d0d0d;
+      --cli-glow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+    }body {
+  margin: 0;
+  background-color: var(--bg-dark);
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--neon-blue);
+  overflow-x: hidden;
+}
+
+.matrix-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: black;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.cli-terminal {
+  background: #111;
+  margin: 3rem auto;
+  padding: 2rem;
+  width: 90%;
+  max-width: 800px;
+  border: 2px solid var(--neon-blue);
+  box-shadow: var(--cli-glow);
+}
+
+#cli-text {
+  white-space: pre-wrap;
+  text-shadow: var(--cli-glow);
+}
+
+.fake-login, .directory-listing, .project-preview {
+  background: #111;
+  margin: 2rem auto;
+  padding: 1rem;
+  width: 90%;
+  max-width: 800px;
+  border: 1px solid var(--neon-pink);
+  color: var(--neon-pink);
+  box-shadow: 0 0 5px var(--neon-pink);
+}
+
+input[type="text"] {
+  background: #000;
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  padding: 0.5rem;
+  width: 100%;
+  font-family: inherit;
+}
+
+.projects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.project-card {
+  flex: 1 1 calc(33% - 2rem);
+  background: #111;
+  padding: 1rem;
+  border: 1px solid var(--neon-blue);
+  box-shadow: var(--cli-glow);
+  color: var(--neon-blue);
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -2;
+}
+
   </style>
 </head>
 <body>
-  <div class="cli">
-    <div class="typewriter">Welcome to 13Spookz37's Github Lab - Status: [Under Construction]</div>
-  </div>  <div class="preview-section">
-    <h2>🔧 Projekte (Preview)</h2><div class="project">
-  <h3>🔍 Recon & Scanning Tools</h3>
-  <p>Tools und Skripte zur Automatisierung von Nmap, Gobuster, Amass etc. (Preview folgt)</p>
-</div>
+  <canvas id="matrix"></canvas>  <div class="cli-terminal">
+    <pre id="cli-text"></pre>
+  </div>  <div class="fake-login">
+    <h3>🔐 Terminal Login</h3>
+    <input type="text" placeholder="> Enter command..." onkeydown="fakeLogin(event)" />
+    <div id="login-response"></div>
+  </div>  <div class="directory-listing">
+    <h3>📁 Directory Listing</h3>
+    <pre>
+/home
+ ├── projects
+ │   ├── pentest-toolkit
+ │   └── exploit-db-scraper
+ └── certs
+     ├── eJPT.png
+     └── TryHackMe.pdf
+    </pre>
+  </div>  <div class="project-preview">
+    <h3>🧠 Project Previews</h3>
+    <div class="projects">
+      <div class="project-card">🛠️ Red Team Toolkit<br /><small>Preview coming soon</small></div>
+      <div class="project-card">🔍 CVE Scanner<br /><small>Preview coming soon</small></div>
+      <div class="project-card">📊 THM Progress Tracker<br /><small>Preview coming soon</small></div>
+    </div>
+  </div>  <script>
+    const cliTxt = '>>> STATUS: UNDER CONSTRUCTION...';
+    let i = 0;
+    function typeWriter() {
+      if (i < cliTxt.length) {
+        document.getElementById("cli-text").innerHTML += cliTxt.charAt(i);
+        i++;
+        setTimeout(typeWriter, 100);
+      }
+    }
+    window.onload = typeWriter;
 
-<div class="project">
-  <h3>🧠 CTF Writeups & Challenges</h3>
-  <p>Dokumentation gelöster CTFs (TryHackMe, Hack The Box). Noch in Arbeit…</p>
-</div>
+    function fakeLogin(e) {
+      if (e.key === "Enter") {
+        const val = e.target.value.toLowerCase();
+        const response = document.getElementById("login-response");
+        if (val === "access granted") {
+          response.innerHTML = '<span style="color: var(--neon-green);">Access Granted ✅</span>';
+        } else {
+          response.innerHTML = '<span style="color: red;">Access Denied ❌</span>';
+        }
+        e.target.value = "";
+      }
+    }
 
-<div class="project">
-  <h3>📜 Zertifikate & Trainings</h3>
-  <p>Platzhalter für Google Cybersecurity Certificate, TryHackMe Progress uvm.</p>
-</div>
+    // Matrix effect
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
 
-  </div>
-</body>
+    const letters = "01";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0F0";
+      ctx.font = `${fontSize}px monospace`;
+
+      drops.forEach((y, i) => {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        const x = i * fontSize;
+        ctx.fillText(text, x, y * fontSize);
+
+        if (y * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      });
+    }
+    setInterval(drawMatrix, 50);
+  </script></body>
 </html>
