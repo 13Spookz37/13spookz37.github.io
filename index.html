@@ -2,169 +2,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cyberpunk Terminal</title>
+  <title>13Spookz37 | Cyberpunk Terminal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    :root {
-      --neon-green: #39ff14;
-      --neon-blue: #00f0ff;
-      --neon-pink: #ff0080;
-      --bg-dark: #0d0d0d;
-      --cli-glow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
-    }body {
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');body {
   margin: 0;
-  background-color: var(--bg-dark);
-  font-family: 'Courier New', Courier, monospace;
-  color: var(--neon-blue);
+  background: radial-gradient(ellipse at center, #0f0c29, #302b63, #24243e);
+  color: #00ffea;
+  font-family: 'Share Tech Mono', monospace;
   overflow-x: hidden;
 }
 
-.matrix-bg {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: black;
-  z-index: -1;
-  pointer-events: none;
+.container {
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 2px solid #00ffea;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #00ffea;
 }
 
-.cli-terminal {
-  background: #111;
-  margin: 3rem auto;
-  padding: 2rem;
-  width: 90%;
-  max-width: 800px;
-  border: 2px solid var(--neon-blue);
-  box-shadow: var(--cli-glow);
+.terminal {
+  background-color: #111;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #00ffea;
+  overflow-x: auto;
 }
 
-#cli-text {
-  white-space: pre-wrap;
-  text-shadow: var(--cli-glow);
+.terminal span {
+  color: #ff00c8;
 }
 
-.fake-login, .directory-listing, .project-preview {
-  background: #111;
-  margin: 2rem auto;
-  padding: 1rem;
-  width: 90%;
-  max-width: 800px;
-  border: 1px solid var(--neon-pink);
-  color: var(--neon-pink);
-  box-shadow: 0 0 5px var(--neon-pink);
+.projects-preview, .diary-preview {
+  margin-top: 30px;
 }
 
-input[type="text"] {
-  background: #000;
-  border: 1px solid var(--neon-green);
-  color: var(--neon-green);
-  padding: 0.5rem;
-  width: 100%;
-  font-family: inherit;
+.preview-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border: 1px dashed #00ffea;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  color: #ccc;
 }
 
-.projects {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+.preview-item:hover {
+  background-color: rgba(0, 255, 234, 0.1);
 }
 
-.project-card {
-  flex: 1 1 calc(33% - 2rem);
-  background: #111;
-  padding: 1rem;
-  border: 1px solid var(--neon-blue);
-  box-shadow: var(--cli-glow);
-  color: var(--neon-blue);
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: .15em solid #00ffea;
+  animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
 }
 
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -2;
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #00ffea; }
 }
 
   </style>
 </head>
 <body>
-  <canvas id="matrix"></canvas>  <div class="cli-terminal">
-    <pre id="cli-text"></pre>
-  </div>  <div class="fake-login">
-    <h3>🔐 Terminal Login</h3>
-    <input type="text" placeholder="> Enter command..." onkeydown="fakeLogin(event)" />
-    <div id="login-response"></div>
-  </div>  <div class="directory-listing">
-    <h3>📁 Directory Listing</h3>
-    <pre>
-/home
- ├── projects
- │   ├── pentest-toolkit
- │   └── exploit-db-scraper
- └── certs
-     ├── eJPT.png
-     └── TryHackMe.pdf
-    </pre>
-  </div>  <div class="project-preview">
-    <h3>🧠 Project Previews</h3>
-    <div class="projects">
-      <div class="project-card">🛠️ Red Team Toolkit<br /><small>Preview coming soon</small></div>
-      <div class="project-card">🔍 CVE Scanner<br /><small>Preview coming soon</small></div>
-      <div class="project-card">📊 THM Progress Tracker<br /><small>Preview coming soon</small></div>
-    </div>
-  </div>  <script>
-    const cliTxt = '>>> STATUS: UNDER CONSTRUCTION...';
-    let i = 0;
-    function typeWriter() {
-      if (i < cliTxt.length) {
-        document.getElementById("cli-text").innerHTML += cliTxt.charAt(i);
-        i++;
-        setTimeout(typeWriter, 100);
-      }
-    }
-    window.onload = typeWriter;
+  <div class="container">
+    <div class="terminal">
+      <div class="typing">13Spookz37@cyberpunk:/home$ <span>status --under-construction</span></div>
+      <p style="margin-top:20px;">System Status: ⚠️ In Entwicklung...<br>Verwende Befehle wie <code>ls projects</code>, <code>cat diary</code>, <code>cd certs</code></p>
+    </div><div class="projects-preview">
+  <h2><i class="fas fa-folder-open"></i> Projekte (Preview)</h2>
+  <div class="preview-item">Projekt 1 – Kommt bald ...</div>
+  <div class="preview-item">Projekt 2 – Bleib gespannt ...</div>
+</div>
 
-    function fakeLogin(e) {
-      if (e.key === "Enter") {
-        const val = e.target.value.toLowerCase();
-        const response = document.getElementById("login-response");
-        if (val === "access granted") {
-          response.innerHTML = '<span style="color: var(--neon-green);">Access Granted ✅</span>';
-        } else {
-          response.innerHTML = '<span style="color: red;">Access Denied ❌</span>';
-        }
-        e.target.value = "";
-      }
-    }
+<div class="diary-preview">
+  <h2><i class="fas fa-book"></i> Hacker-Tagebuch (Preview)</h2>
+  <div class="preview-item">Eintrag 01 – Der erste Zugriff ...</div>
+  <div class="preview-item">Eintrag 02 – Eskalation der Privilegien ...</div>
+</div>
 
-    // Matrix effect
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
+<footer style="margin-top: 40px; text-align:center; color:#666; font-size:0.9em">
+  <p>13Spookz37 © 2025 – Cyberpunk Mode Enabled</p>
+</footer>
 
-    const letters = "01";
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = Array.from({ length: columns }).fill(1);
-
-    function drawMatrix() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#0F0";
-      ctx.font = `${fontSize}px monospace`;
-
-      drops.forEach((y, i) => {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        const x = i * fontSize;
-        ctx.fillText(text, x, y * fontSize);
-
-        if (y * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      });
-    }
-    setInterval(drawMatrix, 50);
-  </script></body>
+  </div>
+</body>
 </html>
