@@ -430,45 +430,6 @@
       </div>
     </div>
 
-    <div id="diary-section" class="content-section">
-      <div class="section-header">
-        <i class="fas fa-terminal"></i>
-        <h2>Hacker-Tagebuch</h2>
-      </div>
-      <div class="item">
-        <div class="item-header">
-          <span class="item-title">Entry #001 - Der erste Zugriff</span>
-          <span class="item-lang">2025-01-15</span>
-        </div>
-        <div class="item-desc">
-          Erste erfolgreiche Penetration eines Testsystems. Verwendete eine 
-          Kombination aus veralteter Software und fehlender Patch-Policy.
-          Lesson learned: Immer die Basics checken!
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-header">
-          <span class="item-title">Entry #002 - Privilege Escalation</span>
-          <span class="item-lang">2025-02-20</span>
-        </div>
-        <div class="item-desc">
-          SUID Binary Exploitation erfolgreich durchgeführt. Das fehlkonfigurierte
-          Backup-Script war der Schlüssel zum Root-Zugriff.
-          Note to self: Enumeration ist der Schlüssel!
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-header">
-          <span class="item-title">Entry #003 - Zero-Day Discovery</span>
-          <span class="item-lang">2025-03-10</span>
-        </div>
-        <div class="item-desc">
-          Potentielle Zero-Day Schwachstelle in populärer Web-Anwendung entdeckt.
-          Responsible Disclosure Prozess eingeleitet. CVE-ID pending.
-        </div>
-      </div>
-    </div>
-
     <div id="certs-section" class="content-section">
       <div class="section-header">
         <i class="fas fa-certificate"></i>
@@ -518,7 +479,6 @@
     const input = document.getElementById('command-input');
     const prompt = document.querySelector('.prompt');
     const projectsSection = document.getElementById('projects-section');
-    const diarySection = document.getElementById('diary-section');
     const certsSection = document.getElementById('certs-section');
     
     let currentDir = '~';
@@ -529,15 +489,11 @@
     const fileSystem = {
       '~': {
         type: 'dir',
-        contents: ['projects', 'diary', 'certs', 'tools', 'README.txt']
+        contents: ['projects', 'certs', 'tools', 'README.txt']
       },
       '~/projects': {
         type: 'dir',
         contents: ['vulnscanner.py', 'exploit_db.sh', 'reverse_shell.c', 'wifi_cracker.py']
-      },
-      '~/diary': {
-        type: 'dir',
-        contents: ['entry_001.txt', 'entry_002.txt', 'entry_003.txt']
       },
       '~/certs': {
         type: 'dir',
@@ -568,7 +524,7 @@
 ║  - contact     : Kontaktinformationen                    ║
 ║  - hack        : ???                                      ║
 ║  - matrix      : Aktiviert Matrix-Effekt                  ║
-║  - manga       : Öffnet visuelles Hacker-Tagebuch        ║
+║  - diary       : Öffnet Hacker-Tagebuch                  ║
 ║                                                           ║
 ║  "The only way to learn is to live in the code."         ║
 ╚═══════════════════════════════════════════════════════════╝`
@@ -603,55 +559,6 @@ echo "Loading exploit database..."
 # Categories: Web, Network, Local, Wireless
 # Total exploits: 1337
 # Last update: $(date)`
-      },
-      '~/diary/entry_001.txt': {
-        type: 'file',
-        content: `[2025-01-15] - Der erste Zugriff
------------------------------------
-Heute habe ich meine erste erfolgreiche Penetration durchgeführt.
-Das Ziel war ein Testsystem mit veralteter Software.
-
-Verwendete Tools:
-- nmap für Port-Scanning
-- Metasploit für Exploitation
-- netcat für Reverse Shell
-
-Schwachstelle: CVE-2024-1234 (RCE in Apache)
-Lesson learned: Immer die Basics checken!`
-      },
-      '~/diary/entry_002.txt': {
-        type: 'file',
-        content: `[2025-02-20] - Privilege Escalation
-------------------------------------
-Neue Technik gelernt: SUID Binary Exploitation
-
-Nach stundenlangem Forschen endlich root bekommen.
-Der Trick war ein fehlkonfiguriertes Backup-Script.
-
-Schritte:
-1. Enumeration mit LinPEAS
-2. SUID Binaries gefunden
-3. GTFOBins Check
-4. Root Shell!
-
-Note to self: Enumeration ist der Schlüssel!`
-      },
-      '~/diary/entry_003.txt': {
-        type: 'file',
-        content: `[2025-03-10] - Zero-Day Discovery
----------------------------------
-JACKPOT! Potentielle Zero-Day gefunden.
-
-Affected Software: [REDACTED]
-Type: SQL Injection → RCE
-Severity: Critical (CVSS 9.8)
-
-Responsible Disclosure Timeline:
-- 2025-03-10: Vendor contacted
-- 2025-03-11: Acknowledgment received
-- CVE-ID: Pending
-
-The hunt continues...`
       },
       '~/certs/skills.txt': {
         type: 'file',
@@ -747,7 +654,7 @@ CERTIFICATIONS
           printLine('  date        - Zeigt aktuelles Datum');
           printLine('  hack        - ???');
           printLine('  matrix      - Aktiviert Matrix-Effekt');
-          printLine('  manga       - Öffnet visuelles Hacker-Tagebuch');
+          printLine('  diary       - Öffnet Hacker-Tagebuch');
           printLine('');
           printLine('Navigation:', 'info');
           printLine('  Nutze TAB für Autovervollständigung');
@@ -886,15 +793,15 @@ CERTIFICATIONS
           printLine('Matrix mode toggled', 'success');
           break;
           
+        case 'diary':
+        case 'hacker-diary':
         case 'manga':
-        case 'diary-manga':
-        case 'visual-diary':
-          printLine('Lade visuelles Hacker-Tagebuch...', 'success');
-          printHTML('<span class="loading">[■□□□□□□□□□] Initialisiere Manga-Interface...</span>');
+          printLine('Lade Hacker-Tagebuch...', 'success');
+          printHTML('<span class="loading">[■□□□□□□□□□] Initialisiere visuelles Interface...</span>');
           setTimeout(() => {
-            printLine('[■■■■■■■■■■] Manga-Tagebuch geladen!', 'success');
+            printLine('[■■■■■■■■■■] Tagebuch geladen!', 'success');
             printLine('Öffne in neuem Tab...', 'info');
-            window.open('manga-diary.html', '_blank');
+            window.open('hacker-diary.html', '_blank');
           }, 1000);
           break;
           
@@ -925,8 +832,6 @@ CERTIFICATIONS
       setTimeout(() => {
         if (currentDir.includes('projects')) {
           projectsSection.classList.add('active');
-        } else if (currentDir.includes('diary')) {
-          diarySection.classList.add('active');
         } else if (currentDir.includes('certs')) {
           certsSection.classList.add('active');
         }
@@ -941,7 +846,7 @@ CERTIFICATIONS
       
       if (parts.length === 1) {
         // Complete commands
-        const commands = ['help', 'ls', 'cd', 'cat', 'pwd', 'clear', 'whoami', 'skills', 'contact', 'date', 'hack', 'matrix', 'manga'];
+        const commands = ['help', 'ls', 'cd', 'cat', 'pwd', 'clear', 'whoami', 'skills', 'contact', 'date', 'hack', 'matrix', 'diary'];
         const matches = commands.filter(cmd => cmd.startsWith(lastPart));
         
         if (matches.length === 1) {
@@ -987,6 +892,7 @@ CERTIFICATIONS
       printLine('Letzte Anmeldung: ' + new Date().toLocaleString(), 'info');
       printLine('');
       printLine('Tippe "help" für verfügbare Befehle oder "cat README.txt" für mehr Info.', 'info');
+      printLine('NEU: Tippe "diary" um dein Hacker-Tagebuch zu öffnen!', 'warning');
       printLine('');
     }
 
