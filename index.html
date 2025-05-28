@@ -2,119 +2,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>13Spookz37 | Under Construction</title>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <title>13Spookz37 | Pentesting Lab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
-      background: #0f0f0f;
-      color: #39ff14;
+      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      color: #00fff7;
       font-family: 'Share Tech Mono', monospace;
+      overflow-x: hidden;
+    }
+    .cli {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 2rem;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 900px;
+      margin: 2rem auto;
+      box-shadow: 0 0 20px #0ff;
+      position: relative;
+      z-index: 2;
+    }
+    .cli::before {
+      content: "13Spookz@cyberpunk-terminal:~$";
+      color: #ff00cc;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .typewriter {
       overflow: hidden;
-    }.terminal {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  border: 2px solid #39ff14;
-  border-radius: 8px;
-  width: 90vw;
-  max-width: 800px;
-  padding: 1rem;
-  box-shadow: 0 0 20px #39ff14;
-}
-
-.output {
-  white-space: pre-line;
-  overflow-y: auto;
-  height: 400px;
-}
-
-.cursor {
-  display: inline-block;
-  width: 10px;
-  background: #39ff14;
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-.glitch {
-  animation: glitch 1s infinite;
-}
-
-@keyframes glitch {
-  0% { text-shadow: 2px 0 red, -2px 0 blue; }
-  20% { text-shadow: -2px 0 red, 2px 0 blue; }
-  40% { text-shadow: 2px 0 red, -2px 0 blue; }
-  60% { text-shadow: -2px 0 red, 2px 0 blue; }
-  100% { text-shadow: none; }
-}
-
-iframe {
-  margin-top: 1rem;
-  width: 100%;
-  height: 250px;
-  border: none;
-  border-radius: 4px;
-}
-
+      border-right: 0.15em solid #00fff7;
+      white-space: nowrap;
+      animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #00fff7; }
+    }
+    .preview-section {
+      max-width: 1000px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      color: #fff;
+    }
+    .preview-section h2 {
+      color: #ff00cc;
+      border-bottom: 1px solid #ff00cc;
+      padding-bottom: 0.5rem;
+    }
+    .project {
+      margin-bottom: 2rem;
+    }
+    .project h3 {
+      color: #00fff7;
+    }
+    .project p {
+      color: #ccc;
+    }
   </style>
 </head>
 <body>
-  <div class="terminal">
-    <div class="output" id="terminal-output">
-      <div class="glitch">13Spookz37 Cyberpunk Terminal Interface</div>
-      <br />
-      booting...
-      <br />
-    </div>
-    <div>> <span id="typewriter"></span><span class="cursor"></span></div>
-  </div>  <audio autoplay loop volume="0.3">
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  </audio>  <script>
-    const output = document.getElementById('terminal-output');
-    const typewriter = document.getElementById('typewriter');
-    const lines = [
-      'Loading Projects...',
-      'Checking Certificates...',
-      'Fetching TryHackMe Progress...',
-      'System Integrity: OK',
-      'Launching Preview Modules...'
-    ];
+  <div class="cli">
+    <div class="typewriter">Welcome to 13Spookz37's Cyberpunk Lab - Status: [Under Construction]</div>
+  </div>  <div class="preview-section">
+    <h2>🔧 Projekte (Preview)</h2><div class="project">
+  <h3>🔍 Recon & Scanning Tools</h3>
+  <p>Tools und Skripte zur Automatisierung von Nmap, Gobuster, Amass etc. (Preview folgt)</p>
+</div>
 
-    let i = 0;
-    function loopLines() {
-      if (i < lines.length) {
-        typeLine(lines[i], () => {
-          output.innerHTML += `> ${lines[i]}\n`;
-          i++;
-          setTimeout(loopLines, 800);
-        });
-      } else {
-        setTimeout(() => { i = 0; loopLines(); }, 4000);
-      }
-    }
+<div class="project">
+  <h3>🧠 CTF Writeups & Challenges</h3>
+  <p>Dokumentation gelöster CTFs (TryHackMe, Hack The Box). Noch in Arbeit…</p>
+</div>
 
-    function typeLine(text, callback) {
-      let j = 0;
-      typewriter.textContent = '';
-      const interval = setInterval(() => {
-        if (j < text.length) {
-          typewriter.textContent += text.charAt(j);
-          j++;
-        } else {
-          clearInterval(interval);
-          callback();
-        }
-      }, 50);
-    }
+<div class="project">
+  <h3>📜 Zertifikate & Trainings</h3>
+  <p>Platzhalter für Google Cybersecurity Certificate, TryHackMe Progress uvm.</p>
+</div>
 
-    loopLines();
-  </script></body>
+  </div>
+</body>
 </html>
