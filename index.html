@@ -22,14 +22,29 @@
       font-family: 'Share Tech Mono', monospace;
       min-height: 100vh;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Matrix Background */
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+      z-index: -1;
     }
 
     .container {
       max-width: 1000px;
       margin: 0 auto;
       padding: 50px 20px;
+      position: relative;
+      z-index: 1;
     }
 
+    /* Terminal Window */
     .terminal {
       background: rgba(0, 0, 0, 0.9);
       border: 2px solid #00ffea;
@@ -38,6 +53,7 @@
       box-shadow: 
         0 0 40px rgba(0, 255, 234, 0.5),
         inset 0 0 40px rgba(0, 255, 234, 0.1);
+      backdrop-filter: blur(10px);
     }
 
     .terminal-header {
@@ -46,7 +62,7 @@
       border-bottom: 1px solid #00ffea;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
     }
 
     .terminal-buttons {
@@ -58,15 +74,37 @@
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      background: #ff5f57;
+      cursor: pointer;
+      transition: all 0.3s;
     }
 
-    .terminal-button:nth-child(2) {
-      background: #ffbd2e;
+    .terminal-button.red { 
+      background: #ff5f57; 
+    }
+    .terminal-button.red:hover { 
+      background: #ff3030; 
+      box-shadow: 0 0 5px #ff3030;
     }
 
-    .terminal-button:nth-child(3) {
-      background: #28ca42;
+    .terminal-button.yellow { 
+      background: #ffbd2e; 
+    }
+    .terminal-button.yellow:hover { 
+      background: #ffaa00; 
+      box-shadow: 0 0 5px #ffaa00;
+    }
+
+    .terminal-button.green { 
+      background: #28ca42; 
+    }
+    .terminal-button.green:hover { 
+      background: #00ff00; 
+      box-shadow: 0 0 5px #00ff00;
+    }
+
+    .terminal-title {
+      color: #666;
+      font-size: 14px;
     }
 
     .terminal-body {
@@ -76,6 +114,7 @@
       max-height: 500px;
       overflow-y: auto;
       font-size: 14px;
+      line-height: 1.6;
     }
 
     #output {
@@ -84,7 +123,18 @@
 
     .line {
       margin: 2px 0;
-      line-height: 1.4;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { 
+        opacity: 0; 
+        transform: translateY(5px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
     }
 
     .input-line {
@@ -107,8 +157,10 @@
       outline: none;
       flex: 1;
       width: 100%;
+      caret-color: #00ffea;
     }
 
+    /* Text Colors */
     .command { color: #00ffea; }
     .error { color: #ff5f57; }
     .success { color: #28ca42; }
@@ -121,6 +173,7 @@
       font-size: 10px;
       line-height: 1;
       white-space: pre;
+      text-shadow: 0 0 10px #ff00c8;
     }
 
     /* Scrollbar */
@@ -141,16 +194,137 @@
       background: #ff00c8;
     }
 
-    /* Glitch effect */
+    /* Content Sections */
+    .content-section {
+      margin-top: 40px;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid #00ffea;
+      border-radius: 10px;
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .content-section.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .section-header h2 {
+      color: #ff00c8;
+      margin: 0;
+      text-shadow: 0 0 10px #ff00c8;
+    }
+
+    .section-header i {
+      font-size: 24px;
+      color: #00ffea;
+    }
+
+    .item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed #00ffea;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 234, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .item:hover {
+      background: rgba(0, 255, 234, 0.1);
+      transform: translateX(10px);
+      border-color: #ff00c8;
+      box-shadow: 0 0 20px rgba(255, 0, 200, 0.3);
+    }
+
+    .item:hover::before {
+      left: 100%;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .item-title {
+      color: #00ffea;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .item-lang {
+      color: #666;
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    .item-desc {
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      color: #666;
+      padding-bottom: 40px;
+    }
+
+    .footer-text {
+      margin: 10px 0;
+    }
+
+    /* Glitch Effect */
     @keyframes glitch {
-      2%, 64% {
-        transform: translate(2px, 0) skew(0deg);
+      0% {
+        text-shadow: 0.05em 0 0 #00ffea, -0.05em -0.025em 0 #ff00c8, 0.025em 0.05em 0 #ffbd2e;
       }
-      4%, 60% {
-        transform: translate(-2px, 0) skew(0deg);
+      15% {
+        text-shadow: 0.05em 0 0 #00ffea, -0.05em -0.025em 0 #ff00c8, 0.025em 0.05em 0 #ffbd2e;
       }
-      62% {
-        transform: translate(0, 0) skew(5deg);
+      16% {
+        text-shadow: -0.05em -0.025em 0 #00ffea, 0.025em 0.025em 0 #ff00c8, -0.05em -0.05em 0 #ffbd2e;
+      }
+      49% {
+        text-shadow: -0.05em -0.025em 0 #00ffea, 0.025em 0.025em 0 #ff00c8, -0.05em -0.05em 0 #ffbd2e;
+      }
+      50% {
+        text-shadow: 0.025em 0.05em 0 #00ffea, 0.05em 0 0 #ff00c8, 0 -0.05em 0 #ffbd2e;
+      }
+      99% {
+        text-shadow: 0.025em 0.05em 0 #00ffea, 0.05em 0 0 #ff00c8, 0 -0.05em 0 #ffbd2e;
+      }
+      100% {
+        text-shadow: -0.025em 0 0 #00ffea, -0.025em -0.025em 0 #ff00c8, -0.025em -0.05em 0 #ffbd2e;
       }
     }
 
@@ -158,127 +332,177 @@
       animation: glitch 2s infinite;
     }
 
-    /* Content sections */
-    .content-section {
-      margin-top: 40px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid #00ffea;
-      border-radius: 10px;
-      display: none;
+    /* Loading Animation */
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
     }
 
-    .content-section.active {
-      display: block;
+    .loading {
+      animation: pulse 1s infinite;
     }
 
-    .content-section h2 {
-      color: #ff00c8;
-      margin-bottom: 20px;
-    }
-
-    .item {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px dashed #00ffea;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      transition: all 0.3s;
-    }
-
-    .item:hover {
-      background: rgba(0, 255, 234, 0.1);
-      transform: translateX(10px);
-      border-color: #ff00c8;
-    }
-
-    .item-title {
-      color: #00ffea;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .item-desc {
-      color: #aaa;
-      font-size: 14px;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      color: #666;
-    }
-
-    .footer-text {
-      margin: 10px 0;
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px 10px;
+      }
+      
+      .terminal-body {
+        min-height: 300px;
+        max-height: 400px;
+      }
+      
+      .content-section {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
+  <canvas id="matrix-canvas"></canvas>
+  
   <div class="container">
     <div class="terminal">
       <div class="terminal-header">
         <div class="terminal-buttons">
-          <div class="terminal-button"></div>
-          <div class="terminal-button"></div>
-          <div class="terminal-button"></div>
+          <div class="terminal-button red" title="Close"></div>
+          <div class="terminal-button yellow" title="Minimize"></div>
+          <div class="terminal-button green" title="Maximize"></div>
         </div>
-        <span style="color: #666; font-size: 14px;">13Spookz37@cyberpunk-terminal</span>
+        <span class="terminal-title">13Spookz37@cyberpunk-terminal</span>
+        <div style="width: 36px;"></div>
       </div>
       <div class="terminal-body">
         <div id="output"></div>
         <div class="input-line">
           <span class="prompt">13Spookz37@cyberpunk:~$ </span>
-          <input type="text" id="command-input" autofocus>
+          <input type="text" id="command-input" autofocus autocomplete="off">
         </div>
       </div>
     </div>
 
     <div id="projects-section" class="content-section">
-      <h2><i class="fas fa-code-branch"></i> Projekte</h2>
-      <div class="item">
-        <div class="item-title">VulnScanner v2.0</div>
-        <div class="item-desc">Automatisierter Vulnerability Scanner mit CVE-Datenbank Integration</div>
+      <div class="section-header">
+        <i class="fas fa-code-branch"></i>
+        <h2>Projekte</h2>
       </div>
       <div class="item">
-        <div class="item-title">Exploit Database</div>
-        <div class="item-desc">Kuratierte Sammlung von Proof-of-Concepts und Exploits</div>
+        <div class="item-header">
+          <span class="item-title">VulnScanner v2.0</span>
+          <span class="item-lang">Python</span>
+        </div>
+        <div class="item-desc">
+          Automatisierter Vulnerability Scanner mit CVE-Datenbank Integration.
+          Features: Port-Scanning, Service-Detection, Exploit-Vorschläge
+        </div>
       </div>
       <div class="item">
-        <div class="item-title">Reverse Shell Generator</div>
-        <div class="item-desc">Generiert angepasste Reverse Shells für verschiedene Umgebungen</div>
+        <div class="item-header">
+          <span class="item-title">Exploit Database</span>
+          <span class="item-lang">Bash/Python</span>
+        </div>
+        <div class="item-desc">
+          Kuratierte Sammlung von Proof-of-Concepts und Exploits.
+          Kategorisiert nach CVE, Schweregrad und betroffenen Systemen.
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">Reverse Shell Generator</span>
+          <span class="item-lang">C/Assembly</span>
+        </div>
+        <div class="item-desc">
+          Generiert angepasste Reverse Shells für verschiedene Umgebungen.
+          Unterstützt Verschleierung und AV-Evasion Techniken.
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">WiFi Cracker Suite</span>
+          <span class="item-lang">Python</span>
+        </div>
+        <div class="item-desc">
+          Toolkit für Wireless Security Assessments. WPA/WPA2 Handshake Capture,
+          Deauth Attacks, Evil Twin AP Generator.
+        </div>
       </div>
     </div>
 
     <div id="diary-section" class="content-section">
-      <h2><i class="fas fa-terminal"></i> Hacker-Tagebuch</h2>
-      <div class="item">
-        <div class="item-title">Entry #001 - Der erste Zugriff</div>
-        <div class="item-desc">Erste erfolgreiche Penetration eines Testsystems</div>
+      <div class="section-header">
+        <i class="fas fa-terminal"></i>
+        <h2>Hacker-Tagebuch</h2>
       </div>
       <div class="item">
-        <div class="item-title">Entry #002 - Privilege Escalation</div>
-        <div class="item-desc">SUID Binary Exploitation erfolgreich durchgeführt</div>
+        <div class="item-header">
+          <span class="item-title">Entry #001 - Der erste Zugriff</span>
+          <span class="item-lang">2025-01-15</span>
+        </div>
+        <div class="item-desc">
+          Erste erfolgreiche Penetration eines Testsystems. Verwendete eine 
+          Kombination aus veralteter Software und fehlender Patch-Policy.
+          Lesson learned: Immer die Basics checken!
+        </div>
       </div>
       <div class="item">
-        <div class="item-title">Entry #003 - Zero-Day Discovery</div>
-        <div class="item-desc">Potentielle Zero-Day Schwachstelle entdeckt</div>
+        <div class="item-header">
+          <span class="item-title">Entry #002 - Privilege Escalation</span>
+          <span class="item-lang">2025-02-20</span>
+        </div>
+        <div class="item-desc">
+          SUID Binary Exploitation erfolgreich durchgeführt. Das fehlkonfigurierte
+          Backup-Script war der Schlüssel zum Root-Zugriff.
+          Note to self: Enumeration ist der Schlüssel!
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">Entry #003 - Zero-Day Discovery</span>
+          <span class="item-lang">2025-03-10</span>
+        </div>
+        <div class="item-desc">
+          Potentielle Zero-Day Schwachstelle in populärer Web-Anwendung entdeckt.
+          Responsible Disclosure Prozess eingeleitet. CVE-ID pending.
+        </div>
       </div>
     </div>
 
     <div id="certs-section" class="content-section">
-      <h2><i class="fas fa-certificate"></i> Zertifikate</h2>
-      <div class="item">
-        <div class="item-title">OSCP - Offensive Security Certified Professional</div>
-        <div class="item-desc">In Progress - Die härteste praktische Pentesting-Zertifizierung</div>
+      <div class="section-header">
+        <i class="fas fa-certificate"></i>
+        <h2>Zertifikate & Skills</h2>
       </div>
       <div class="item">
-        <div class="item-title">CEH - Certified Ethical Hacker</div>
-        <div class="item-desc">Completed - Grundlegende Zertifizierung für ethisches Hacking</div>
+        <div class="item-header">
+          <span class="item-title">OSCP - Offensive Security Certified Professional</span>
+          <span class="item-lang">In Progress</span>
+        </div>
+        <div class="item-desc">
+          Die härteste praktische Pentesting-Zertifizierung. 24-Stunden Prüfung
+          mit realen Penetrationstests. Try Harder!
+        </div>
       </div>
       <div class="item">
-        <div class="item-title">CompTIA Security+</div>
-        <div class="item-desc">Completed - Fundamentale Sicherheitszertifizierung</div>
+        <div class="item-header">
+          <span class="item-title">CEH - Certified Ethical Hacker</span>
+          <span class="item-lang">Completed</span>
+        </div>
+        <div class="item-desc">
+          Grundlegende Zertifizierung für ethisches Hacking. Abdeckung von
+          Scanning, Enumeration, System Hacking und mehr.
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-header">
+          <span class="item-title">CompTIA Security+</span>
+          <span class="item-lang">Completed</span>
+        </div>
+        <div class="item-desc">
+          Fundamentale Sicherheitszertifizierung. Basis für weitere
+          Spezialisierungen im Cybersecurity-Bereich.
+        </div>
       </div>
     </div>
 
@@ -292,6 +516,7 @@
     // Terminal System
     const output = document.getElementById('output');
     const input = document.getElementById('command-input');
+    const prompt = document.querySelector('.prompt');
     const projectsSection = document.getElementById('projects-section');
     const diarySection = document.getElementById('diary-section');
     const certsSection = document.getElementById('certs-section');
@@ -300,15 +525,15 @@
     let commandHistory = [];
     let historyIndex = 0;
 
-    // File System
+    // Complete File System
     const fileSystem = {
       '~': {
         type: 'dir',
-        contents: ['projects', 'diary', 'certs', 'README.txt']
+        contents: ['projects', 'diary', 'certs', 'tools', 'README.txt']
       },
       '~/projects': {
         type: 'dir',
-        contents: ['vulnscanner.py', 'exploit_db.sh', 'reverse_shell.c']
+        contents: ['vulnscanner.py', 'exploit_db.sh', 'reverse_shell.c', 'wifi_cracker.py']
       },
       '~/diary': {
         type: 'dir',
@@ -316,7 +541,11 @@
       },
       '~/certs': {
         type: 'dir',
-        contents: ['OSCP.pdf', 'CEH.pdf', 'Security+.pdf']
+        contents: ['OSCP.pdf', 'CEH.pdf', 'Security+.pdf', 'skills.txt']
+      },
+      '~/tools': {
+        type: 'dir',
+        contents: ['nmap', 'metasploit', 'burpsuite', 'wireshark', 'aircrack-ng']
       },
       '~/README.txt': {
         type: 'file',
@@ -332,10 +561,145 @@
 ║  - ls          : Listet Dateien auf                      ║
 ║  - cd <dir>    : Wechselt Verzeichnis                    ║
 ║  - cat <file>  : Zeigt Dateiinhalt                       ║
+║  - pwd         : Zeigt aktuelles Verzeichnis             ║
 ║  - clear       : Löscht Terminal                         ║
 ║  - whoami      : Zeigt Benutzerinfo                      ║
+║  - skills      : Zeigt meine Fähigkeiten                 ║
+║  - contact     : Kontaktinformationen                    ║
+║  - hack        : ???                                      ║
+║  - matrix      : Aktiviert Matrix-Effekt                  ║
 ║                                                           ║
+║  "The only way to learn is to live in the code."         ║
 ╚═══════════════════════════════════════════════════════════╝`
+      },
+      '~/projects/vulnscanner.py': {
+        type: 'file',
+        content: `#!/usr/bin/env python3
+# Vulnerability Scanner v2.0
+# Author: 13Spookz37
+# Status: In Development
+
+import nmap
+import requests
+from datetime import datetime
+
+def scan_network(target):
+    nm = nmap.PortScanner()
+    print(f"[*] Scanning {target}...")
+    # Scan common ports
+    nm.scan(target, '1-1000')
+    # Check for vulnerabilities
+    # [REDACTED - Full code available on GitHub]`
+      },
+      '~/projects/exploit_db.sh': {
+        type: 'file',
+        content: `#!/bin/bash
+# Exploit Database Manager
+# Collection of PoCs and Exploits
+# FOR EDUCATIONAL PURPOSES ONLY!
+
+echo "Loading exploit database..."
+# Categories: Web, Network, Local, Wireless
+# Total exploits: 1337
+# Last update: $(date)`
+      },
+      '~/diary/entry_001.txt': {
+        type: 'file',
+        content: `[2025-01-15] - Der erste Zugriff
+-----------------------------------
+Heute habe ich meine erste erfolgreiche Penetration durchgeführt.
+Das Ziel war ein Testsystem mit veralteter Software.
+
+Verwendete Tools:
+- nmap für Port-Scanning
+- Metasploit für Exploitation
+- netcat für Reverse Shell
+
+Schwachstelle: CVE-2024-1234 (RCE in Apache)
+Lesson learned: Immer die Basics checken!`
+      },
+      '~/diary/entry_002.txt': {
+        type: 'file',
+        content: `[2025-02-20] - Privilege Escalation
+------------------------------------
+Neue Technik gelernt: SUID Binary Exploitation
+
+Nach stundenlangem Forschen endlich root bekommen.
+Der Trick war ein fehlkonfiguriertes Backup-Script.
+
+Schritte:
+1. Enumeration mit LinPEAS
+2. SUID Binaries gefunden
+3. GTFOBins Check
+4. Root Shell!
+
+Note to self: Enumeration ist der Schlüssel!`
+      },
+      '~/diary/entry_003.txt': {
+        type: 'file',
+        content: `[2025-03-10] - Zero-Day Discovery
+---------------------------------
+JACKPOT! Potentielle Zero-Day gefunden.
+
+Affected Software: [REDACTED]
+Type: SQL Injection → RCE
+Severity: Critical (CVSS 9.8)
+
+Responsible Disclosure Timeline:
+- 2025-03-10: Vendor contacted
+- 2025-03-11: Acknowledgment received
+- CVE-ID: Pending
+
+The hunt continues...`
+      },
+      '~/certs/skills.txt': {
+        type: 'file',
+        content: `TECHNICAL SKILLS
+================
+Penetration Testing:
+- Web Application Security (OWASP Top 10)
+- Network Penetration Testing
+- Wireless Security Assessment
+- Social Engineering
+- Physical Security Testing
+
+Programming Languages:
+- Python (Expert)
+- Bash (Expert)
+- C/C++ (Advanced)
+- Assembly (Intermediate)
+- JavaScript (Advanced)
+- SQL (Expert)
+
+Tools & Frameworks:
+- Metasploit Framework
+- Burp Suite Pro
+- OWASP ZAP
+- Nmap & Nessus
+- Wireshark
+- John the Ripper & Hashcat
+- Aircrack-ng Suite
+- BeEF Framework
+- Cobalt Strike
+
+Operating Systems:
+- Kali Linux (Primary)
+- Parrot Security OS
+- BlackArch
+- Windows (AD Pentesting)
+
+Cloud & Containers:
+- AWS Security
+- Docker/Kubernetes Security
+- Azure Pentesting
+
+CERTIFICATIONS
+==============
+✓ CompTIA Security+
+✓ CEH (Certified Ethical Hacker)
+⟳ OSCP (In Progress)
+○ OSCE (Planned)
+○ CISSP (Future Goal)`
       }
     };
 
@@ -362,49 +726,70 @@
       const args = cmd.trim().split(' ');
       const command = args[0].toLowerCase();
       
-      printLine(`13Spookz37@cyberpunk:${currentDir}$ ${cmd}`, 'command');
+      printLine(`${prompt.textContent}${cmd}`, 'command');
       
       switch(command) {
+        case '':
+          break;
+          
         case 'help':
           printLine('Verfügbare Befehle:', 'info');
-          printLine('  help     - Zeigt diese Hilfe');
-          printLine('  ls       - Listet Dateien und Verzeichnisse');
-          printLine('  cd <dir> - Wechselt das Verzeichnis');
-          printLine('  cat <file> - Zeigt Dateiinhalt');
-          printLine('  pwd      - Zeigt aktuelles Verzeichnis');
-          printLine('  clear    - Löscht das Terminal');
-          printLine('  whoami   - Zeigt Benutzerinformationen');
-          printLine('  date     - Zeigt aktuelles Datum');
+          printLine('  help        - Zeigt diese Hilfe');
+          printLine('  ls [dir]    - Listet Dateien und Verzeichnisse');
+          printLine('  cd <dir>    - Wechselt das Verzeichnis');
+          printLine('  cat <file>  - Zeigt Dateiinhalt');
+          printLine('  pwd         - Zeigt aktuelles Verzeichnis');
+          printLine('  clear       - Löscht das Terminal');
+          printLine('  whoami      - Zeigt Benutzerinformationen');
+          printLine('  skills      - Zeigt technische Fähigkeiten');
+          printLine('  contact     - Zeigt Kontaktinformationen');
+          printLine('  date        - Zeigt aktuelles Datum');
+          printLine('  hack        - ???');
+          printLine('  matrix      - Aktiviert Matrix-Effekt');
+          printLine('');
+          printLine('Navigation:', 'info');
+          printLine('  Nutze TAB für Autovervollständigung');
+          printLine('  Nutze ↑/↓ für Command-History');
           break;
           
         case 'ls':
-          const path = currentDir;
-          if (fileSystem[path]) {
-            fileSystem[path].contents.forEach(item => {
-              const itemPath = `${path}/${item}`.replace('//', '/');
+          const lsPath = args[1] ? 
+            (args[1].startsWith('~') ? args[1] : `${currentDir}/${args[1]}`.replace('//', '/')) : 
+            currentDir;
+            
+          if (fileSystem[lsPath] && fileSystem[lsPath].type === 'dir') {
+            fileSystem[lsPath].contents.forEach(item => {
+              const itemPath = `${lsPath}/${item}`.replace('//', '/');
               if (fileSystem[itemPath] && fileSystem[itemPath].type === 'dir') {
                 printHTML(`<span class="highlight">${item}/</span>`);
               } else {
                 printLine(item, 'success');
               }
             });
+          } else {
+            printLine(`ls: ${args[1] || '.'}: Keine Berechtigung oder nicht gefunden`, 'error');
           }
           break;
           
         case 'cd':
-          if (args[1]) {
-            const newPath = args[1] === '..' ? '~' : 
-                           args[1] === '~' ? '~' : 
+          if (!args[1] || args[1] === '~') {
+            currentDir = '~';
+            updatePrompt();
+            hideAllSections();
+          } else if (args[1] === '..') {
+            if (currentDir !== '~') {
+              currentDir = '~';
+              updatePrompt();
+              hideAllSections();
+            }
+          } else {
+            const newPath = args[1].startsWith('~') ? args[1] : 
                            `${currentDir}/${args[1]}`.replace('//', '/');
             
             if (fileSystem[newPath] && fileSystem[newPath].type === 'dir') {
               currentDir = newPath;
-              document.querySelector('.prompt').textContent = `13Spookz37@cyberpunk:${currentDir}$ `;
-              
-              // Show/hide sections
-              projectsSection.classList.toggle('active', currentDir.includes('projects'));
-              diarySection.classList.toggle('active', currentDir.includes('diary'));
-              certsSection.classList.toggle('active', currentDir.includes('certs'));
+              updatePrompt();
+              updateSections();
             } else {
               printLine(`cd: ${args[1]}: Verzeichnis nicht gefunden`, 'error');
             }
@@ -412,8 +797,12 @@
           break;
           
         case 'cat':
-          if (args[1]) {
-            const filePath = `${currentDir}/${args[1]}`.replace('//', '/');
+          if (!args[1]) {
+            printLine('cat: Fehlende Datei', 'error');
+          } else {
+            const filePath = args[1].startsWith('~') ? args[1] : 
+                            `${currentDir}/${args[1]}`.replace('//', '/');
+            
             if (fileSystem[filePath] && fileSystem[filePath].type === 'file') {
               printLine(fileSystem[filePath].content, 'info');
             } else {
@@ -431,35 +820,210 @@
           break;
           
         case 'whoami':
-          printLine('13Spookz37 - Ethical Hacker & Penetration Tester', 'highlight');
+          printLine('13Spookz37', 'highlight');
+          printLine('Ethical Hacker & Penetration Tester', 'info');
+          printLine('Location: Deep Web', 'info');
+          printLine('Status: Always learning, always hacking (ethically)', 'info');
+          break;
+          
+        case 'skills':
+          printHTML(`<pre class="highlight">
+╔══════════════════════════════════════════╗
+║           TECHNICAL SKILLS               ║
+╠══════════════════════════════════════════╣
+║ • Web Application Penetration Testing    ║
+║ • Network Security Assessment            ║
+║ • Wireless Security Testing              ║
+║ • Social Engineering                     ║
+║ • Exploit Development                    ║
+║ • Reverse Engineering                    ║
+║ • OSINT & Reconnaissance                 ║
+║ • Cryptography & Steganography           ║
+╚══════════════════════════════════════════╝</pre>`);
+          break;
+          
+        case 'contact':
+          printLine('GitHub: github.com/13Spookz37', 'success');
+          printLine('Email: 13spookz37@protonmail.com', 'success');
+          printLine('Discord: 13Spookz37#1337', 'success');
+          printLine('PGP Key: Available on request', 'info');
           break;
           
         case 'date':
           printLine(new Date().toString(), 'info');
           break;
           
+        case 'hack':
+          printLine('Initiating hack sequence...', 'warning');
+          setTimeout(() => {
+            printLine('[■□□□□□□□□□] 10%', 'loading');
+            setTimeout(() => {
+              printLine('[■■■□□□□□□□] 30%', 'loading');
+              setTimeout(() => {
+                printLine('[■■■■■□□□□□] 50%', 'loading');
+                setTimeout(() => {
+                  printLine('[■■■■■■■□□□] 70%', 'loading');
+                  setTimeout(() => {
+                    printLine('[■■■■■■■■■□] 90%', 'loading');
+                    setTimeout(() => {
+                      printLine('[■■■■■■■■■■] 100%', 'loading');
+                      printLine('', '');
+                      printLine('ACCESS DENIED!', 'error');
+                      printLine('Nice try, but this is just a simulation ;)', 'warning');
+                      printLine('Remember: Only hack systems you have permission to test!', 'info');
+                    }, 500);
+                  }, 500);
+                }, 500);
+              }, 500);
+            }, 500);
+          }, 1000);
+          break;
+          
+        case 'matrix':
+          toggleMatrix();
+          printLine('Matrix mode toggled', 'success');
+          break;
+          
         default:
           if (cmd.trim()) {
             printLine(`bash: ${command}: Befehl nicht gefunden`, 'error');
+            printLine(`Tippe 'help' für verfügbare Befehle`, 'info');
           }
+      }
+    }
+
+    // Update prompt
+    function updatePrompt() {
+      prompt.textContent = `13Spookz37@cyberpunk:${currentDir}$ `;
+    }
+
+    // Hide all sections
+    function hideAllSections() {
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+      });
+    }
+
+    // Update visible sections based on current directory
+    function updateSections() {
+      hideAllSections();
+      
+      setTimeout(() => {
+        if (currentDir.includes('projects')) {
+          projectsSection.classList.add('active');
+        } else if (currentDir.includes('diary')) {
+          diarySection.classList.add('active');
+        } else if (currentDir.includes('certs')) {
+          certsSection.classList.add('active');
+        }
+      }, 100);
+    }
+
+    // Tab completion
+    function handleTabCompletion() {
+      const currentInput = input.value;
+      const parts = currentInput.split(' ');
+      const lastPart = parts[parts.length - 1];
+      
+      if (parts.length === 1) {
+        // Complete commands
+        const commands = ['help', 'ls', 'cd', 'cat', 'pwd', 'clear', 'whoami', 'skills', 'contact', 'date', 'hack', 'matrix'];
+        const matches = commands.filter(cmd => cmd.startsWith(lastPart));
+        
+        if (matches.length === 1) {
+          input.value = matches[0];
+        } else if (matches.length > 1) {
+          printLine(`${prompt.textContent}${currentInput}`, 'command');
+          matches.forEach(match => printLine(match, 'info'));
+        }
+      } else if (parts[0] === 'cd' || parts[0] === 'cat' || parts[0] === 'ls') {
+        // Complete file/directory names
+        const searchPath = currentDir;
+        if (fileSystem[searchPath] && fileSystem[searchPath].contents) {
+          const matches = fileSystem[searchPath].contents.filter(item => 
+            item.startsWith(lastPart)
+          );
+          
+          if (matches.length === 1) {
+            parts[parts.length - 1] = matches[0];
+            input.value = parts.join(' ');
+          } else if (matches.length > 1) {
+            printLine(`${prompt.textContent}${currentInput}`, 'command');
+            matches.forEach(match => printLine(match, 'info'));
+          }
+        }
       }
     }
 
     // Initialize terminal
     function init() {
       printHTML(`<pre class="ascii-art">
- ▄█  ▄▄▄▄▄   ▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄  
-███ ▀▀▀▀▀▀█ ▀▀▀▀▀▀█ ▀▀▀▀▀▀██ ▀▀▀▀▀▀██ ▀▀▀▀▀▀██ ▀▀▀▀▀██ 
- ▀█       █▄       █       ██       ██       ██      ██ 
-  █▄▄▄▄▄▄▄█ ▄▄▄▄▄▄█  ██▄▄▄█▀  ██▄▄▄█▀  ██▄▄▄█▀ ██▄▄▄█▀ 
-</pre>`);
+ ▄█  ▄▄▄▄▄   ▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄  ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ 
+███ ▀▀▀▀▀▀█ ▀▀▀▀▀▀█ ▀▀▀▀▀▀██ ▀▀▀▀▀▀██ ▀▀▀▀▀▀██ ▀▀▀▀▀██ ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀ 
+ ▀█       █▄       █       ██       ██       ██      ██                 
+  █▄▄▄▄▄▄▄█ ▄▄▄▄▄▄█  ██▄▄▄█▀  ██▄▄▄█▀  ██▄▄▄█▀ ██▄▄▄█▀ ▄▄▄▄▄▄   ▄▄▄▄▄ 
+  ▄▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█  ██▀▀▀▀   ██▀▀▀▀   ██▀▀▀▀  ██▀▀▀▀  ▀▀▀▀▀▀█  ▀▀▀▀█ 
+ █▀       ▀█       █  ██       ██       ██      ██             █      █ 
+███▄▄▄▄▄▄█▀ ▄▄▄▄▄▄█  ██       ██▄▄▄▄▄  ██      ██▄▄▄▄▄ ▄▄▄▄▄▄▄█  ▄▄▄█▀ 
+ ▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀  ▀▀       ▀▀▀▀▀▀▀  ▀▀      ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀  ▀▀▀▀  
+                    [ CYBERPUNK TERMINAL v2.0 ]</pre>`);
+      printLine('');
       printLine('System initialisiert...', 'success');
-      printLine('Tippe "help" für verfügbare Befehle.\n', 'info');
+      printLine('Willkommen zurück, 13Spookz37', 'highlight');
+      printLine('Letzte Anmeldung: ' + new Date().toLocaleString(), 'info');
+      printLine('');
+      printLine('Tippe "help" für verfügbare Befehle oder "cat README.txt" für mehr Info.', 'info');
+      printLine('');
+    }
+
+    // Matrix effect
+    let matrixInterval;
+    function toggleMatrix() {
+      const canvas = document.getElementById('matrix-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      if (matrixInterval) {
+        clearInterval(matrixInterval);
+        matrixInterval = null;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        return;
+      }
+      
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?~';
+      const fontSize = 14;
+      const columns = canvas.width / fontSize;
+      const drops = [];
+      
+      for (let i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
+      
+      matrixInterval = setInterval(() => {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#0F0';
+        ctx.font = fontSize + 'px monospace';
+        
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }, 33);
     }
 
     // Event listeners
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
+        e.preventDefault();
         const cmd = input.value;
         if (cmd.trim()) {
           commandHistory.push(cmd);
@@ -482,17 +1046,42 @@
           historyIndex = commandHistory.length;
           input.value = '';
         }
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        handleTabCompletion();
       }
     });
 
     // Keep focus on input
-    document.addEventListener('click', () => {
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('a')) {
+        input.focus();
+      }
+    });
+
+    // Prevent form submission
+    input.closest('form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+    });
+
+    // Window resize handler
+    window.addEventListener('resize', () => {
+      const canvas = document.getElementById('matrix-canvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      init();
       input.focus();
     });
 
-    // Start
-    init();
-    input.focus();
+    // Also init if script runs after DOM is loaded
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      init();
+      input.focus();
+    }
   </script>
 </body>
 </html>
