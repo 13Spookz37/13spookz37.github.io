@@ -21,17 +21,6 @@
       min-height: 100vh;
     }
 
-    /* Matrix Rain Effect */
-    #matrix-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.1;
-    }
-
     .container {
       max-width: 1000px;
       margin: 50px auto;
@@ -276,8 +265,6 @@
   </style>
 </head>
 <body>
-  <canvas id="matrix-bg"></canvas>
-  
   <div class="container">
     <div class="terminal">
       <div class="terminal-header">
@@ -533,9 +520,6 @@ CERTIFICATIONS
           println('Initiating hack sequence...', 'warning');
           setTimeout(() => println('Access Denied! Nice try ;)', 'error'), 1000);
           break;
-        case 'matrix':
-          startMatrix();
-          break;
         default:
           println(`bash: ${command}: command not found`, 'error');
           println('Tippe "help" für verfügbare Befehle.', 'info');
@@ -555,7 +539,6 @@ Verfügbare Befehle:
   skills      - Zeigt technische Fähigkeiten
   contact     - Zeigt Kontaktinformationen
   date        - Zeigt aktuelles Datum
-  matrix      - Aktiviert Matrix-Effekt
   
 Navigation:
   Nutze TAB für Autovervollständigung
@@ -686,4 +669,12 @@ Navigation:
         <div class="preview-item">
           <div class="preview-item-header">
             <span class="preview-item-title">VulnScanner v2.0</span>
-            <span class="pr
+            <span class="preview-item-date">Python</span>
+          </div>
+          <div class="preview-item-content">
+            Automatisierter Vulnerability Scanner mit CVE-Datenbank Integration.
+            Features: Port-Scanning, Service-Detection, Exploit-Vorschläge
+          </div>
+        </div>
+        <div class="preview-item">
+          
