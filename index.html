@@ -568,6 +568,7 @@
 ║  - contact     : Kontaktinformationen                    ║
 ║  - hack        : ???                                      ║
 ║  - matrix      : Aktiviert Matrix-Effekt                  ║
+║  - manga       : Öffnet visuelles Hacker-Tagebuch        ║
 ║                                                           ║
 ║  "The only way to learn is to live in the code."         ║
 ╚═══════════════════════════════════════════════════════════╝`
@@ -746,6 +747,7 @@ CERTIFICATIONS
           printLine('  date        - Zeigt aktuelles Datum');
           printLine('  hack        - ???');
           printLine('  matrix      - Aktiviert Matrix-Effekt');
+          printLine('  manga       - Öffnet visuelles Hacker-Tagebuch');
           printLine('');
           printLine('Navigation:', 'info');
           printLine('  Nutze TAB für Autovervollständigung');
@@ -884,6 +886,18 @@ CERTIFICATIONS
           printLine('Matrix mode toggled', 'success');
           break;
           
+        case 'manga':
+        case 'diary-manga':
+        case 'visual-diary':
+          printLine('Lade visuelles Hacker-Tagebuch...', 'success');
+          printHTML('<span class="loading">[■□□□□□□□□□] Initialisiere Manga-Interface...</span>');
+          setTimeout(() => {
+            printLine('[■■■■■■■■■■] Manga-Tagebuch geladen!', 'success');
+            printLine('Öffne in neuem Tab...', 'info');
+            window.open('manga-diary.html', '_blank');
+          }, 1000);
+          break;
+          
         default:
           if (cmd.trim()) {
             printLine(`bash: ${command}: Befehl nicht gefunden`, 'error');
@@ -927,7 +941,7 @@ CERTIFICATIONS
       
       if (parts.length === 1) {
         // Complete commands
-        const commands = ['help', 'ls', 'cd', 'cat', 'pwd', 'clear', 'whoami', 'skills', 'contact', 'date', 'hack', 'matrix'];
+        const commands = ['help', 'ls', 'cd', 'cat', 'pwd', 'clear', 'whoami', 'skills', 'contact', 'date', 'hack', 'matrix', 'manga'];
         const matches = commands.filter(cmd => cmd.startsWith(lastPart));
         
         if (matches.length === 1) {
