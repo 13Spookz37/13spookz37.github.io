@@ -1,98 +1,689 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>13Spookz37 | Cyberpunk Terminal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');body {
-  margin: 0;
-  background: radial-gradient(ellipse at center, #0f0c29, #302b63, #24243e);
-  color: #00ffea;
-  font-family: 'Share Tech Mono', monospace;
-  overflow-x: hidden;
-}
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at center, #0f0c29, #302b63, #24243e);
+      color: #00ffea;
+      font-family: 'Share Tech Mono', monospace;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
 
-.container {
-  max-width: 1000px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.4);
-  border: 2px solid #00ffea;
-  border-radius: 10px;
-  box-shadow: 0 0 15px #00ffea;
-}
+    /* Matrix Rain Effect */
+    #matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.1;
+    }
 
-.terminal {
-  background-color: #111;
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #00ffea;
-  overflow-x: auto;
-}
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ffea;
+      border-radius: 10px;
+      box-shadow: 0 0 30px #00ffea, inset 0 0 30px rgba(0, 255, 234, 0.1);
+      backdrop-filter: blur(5px);
+    }
 
-.terminal span {
-  color: #ff00c8;
-}
+    /* Terminal Styles */
+    .terminal {
+      background-color: #0a0a0a;
+      border-radius: 5px;
+      padding: 0;
+      margin-bottom: 30px;
+      border: 1px solid #00ffea;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
+    }
 
-.projects-preview, .diary-preview {
-  margin-top: 30px;
-}
+    .terminal-header {
+      background: linear-gradient(to right, #1a1a1a, #2a2a2a);
+      padding: 8px 15px;
+      border-bottom: 1px solid #00ffea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-.preview-item {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 15px;
-  border: 1px dashed #00ffea;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  color: #ccc;
-}
+    .terminal-buttons {
+      display: flex;
+      gap: 8px;
+    }
 
-.preview-item:hover {
-  background-color: rgba(0, 255, 234, 0.1);
-}
+    .terminal-button {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
 
-.typing {
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: .15em solid #00ffea;
-  animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
-}
+    .terminal-button.red { background: #ff5f57; }
+    .terminal-button.yellow { background: #ffbd2e; }
+    .terminal-button.green { background: #28ca42; }
 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
+    .terminal-title {
+      color: #666;
+      font-size: 0.9em;
+    }
 
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: #00ffea; }
-}
+    .terminal-body {
+      padding: 20px;
+      height: 400px;
+      overflow-y: auto;
+      background: #0a0a0a;
+    }
 
+    .terminal-output {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .terminal-line {
+      margin: 5px 0;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .terminal-input-line {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .terminal-prompt {
+      color: #ff00c8;
+      margin-right: 10px;
+    }
+
+    .terminal-input {
+      background: transparent;
+      border: none;
+      color: #00ffea;
+      font-family: inherit;
+      font-size: inherit;
+      outline: none;
+      flex: 1;
+      caret-color: #00ffea;
+    }
+
+    .command { color: #00ffea; }
+    .success { color: #28ca42; }
+    .error { color: #ff5f57; }
+    .warning { color: #ffbd2e; }
+    .info { color: #666; }
+    .highlight { color: #ff00c8; }
+
+    /* ASCII Art */
+    .ascii-art {
+      color: #ff00c8;
+      font-size: 0.8em;
+      line-height: 1.2;
+      margin: 20px 0;
+    }
+
+    /* Content Sections */
+    .content-section {
+      margin-top: 40px;
+      opacity: 0;
+      animation: slideIn 0.5s ease-out forwards;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      color: #ff00c8;
+      text-shadow: 0 0 10px #ff00c8;
+    }
+
+    .section-header i {
+      font-size: 1.5em;
+    }
+
+    .preview-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border: 1px dashed #00ffea;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      color: #ccc;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .preview-item::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #00ffea, #ff00c8);
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.3s ease;
+      filter: blur(5px);
+    }
+
+    .preview-item:hover {
+      background-color: rgba(0, 255, 234, 0.1);
+      transform: translateX(10px);
+      border-color: #ff00c8;
+    }
+
+    .preview-item:hover::before {
+      opacity: 0.5;
+    }
+
+    .preview-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .preview-item-title {
+      font-weight: bold;
+      color: #00ffea;
+    }
+
+    .preview-item-date {
+      color: #666;
+      font-size: 0.8em;
+    }
+
+    .preview-item-content {
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      color: #666;
+      font-size: 0.9em;
+      padding-bottom: 20px;
+    }
+
+    footer p {
+      margin: 5px 0;
+    }
+
+    /* Glitch Effect */
+    .glitch {
+      position: relative;
+      animation: glitch 2s infinite;
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 0.05em 0 0 #00ffea, -0.05em -0.025em 0 #ff00c8, 0.025em 0.05em 0 #ffbd2e; }
+      15% { text-shadow: 0.05em 0 0 #00ffea, -0.05em -0.025em 0 #ff00c8, 0.025em 0.05em 0 #ffbd2e; }
+      16% { text-shadow: -0.05em -0.025em 0 #00ffea, 0.025em 0.025em 0 #ff00c8, -0.05em -0.05em 0 #ffbd2e; }
+      49% { text-shadow: -0.05em -0.025em 0 #00ffea, 0.025em 0.025em 0 #ff00c8, -0.05em -0.05em 0 #ffbd2e; }
+      50% { text-shadow: 0.025em 0.05em 0 #00ffea, 0.05em 0 0 #ff00c8, 0 -0.05em 0 #ffbd2e; }
+      99% { text-shadow: 0.025em 0.05em 0 #00ffea, 0.05em 0 0 #ff00c8, 0 -0.05em 0 #ffbd2e; }
+      100% { text-shadow: -0.025em 0 0 #00ffea, -0.025em -0.025em 0 #ff00c8, -0.025em -0.05em 0 #ffbd2e; }
+    }
+
+    /* Scrollbar */
+    .terminal-body::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .terminal-body::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+
+    .terminal-body::-webkit-scrollbar-thumb {
+      background: #00ffea;
+      border-radius: 4px;
+    }
+
+    .terminal-body::-webkit-scrollbar-thumb:hover {
+      background: #ff00c8;
+    }
   </style>
 </head>
 <body>
+  <canvas id="matrix-bg"></canvas>
+  
   <div class="container">
     <div class="terminal">
-      <div class="typing">13Spookz37@cyberpunk:/home$ <span>status --under-construction</span></div>
-      <p style="margin-top:20px;">System Status: ⚠️ In Entwicklung...<br>Verwende Befehle wie <code>ls projects</code>, <code>cat diary</code>, <code>cd certs</code></p>
-    </div><div class="projects-preview">
-  <h2><i class="fas fa-folder-open"></i> Projekte (Preview)</h2>
-  <div class="preview-item">Projekt 1 – Kommt bald ...</div>
-  <div class="preview-item">Projekt 2 – Bleib gespannt ...</div>
-</div>
+      <div class="terminal-header">
+        <div class="terminal-buttons">
+          <div class="terminal-button red"></div>
+          <div class="terminal-button yellow"></div>
+          <div class="terminal-button green"></div>
+        </div>
+        <div class="terminal-title">13Spookz37@cyberpunk-terminal</div>
+        <div></div>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <div class="terminal-output" id="terminal-output"></div>
+        <div class="terminal-input-line">
+          <span class="terminal-prompt" id="prompt">13Spookz37@cyberpunk:~$ </span>
+          <input type="text" class="terminal-input" id="terminal-input" autofocus>
+        </div>
+      </div>
+    </div>
 
-<div class="diary-preview">
-  <h2><i class="fas fa-book"></i> Hacker-Tagebuch (Preview)</h2>
-  <div class="preview-item">Eintrag 01 – Der erste Zugriff ...</div>
-  <div class="preview-item">Eintrag 02 – Eskalation der Privilegien ...</div>
-</div>
+    <div class="content-section" id="projects-section" style="display: none;">
+      <div class="section-header">
+        <i class="fas fa-code-branch"></i>
+        <h2>Projekte</h2>
+      </div>
+      <div id="projects-list"></div>
+    </div>
 
-<footer style="margin-top: 40px; text-align:center; color:#666; font-size:0.9em">
-  <p>13Spookz37 © 2025 – Cyberpunk Mode Enabled</p>
-</footer>
+    <div class="content-section" id="diary-section" style="display: none;">
+      <div class="section-header">
+        <i class="fas fa-terminal"></i>
+        <h2>Hacker-Tagebuch</h2>
+      </div>
+      <div id="diary-list"></div>
+    </div>
 
+    <div class="content-section" id="certs-section" style="display: none;">
+      <div class="section-header">
+        <i class="fas fa-certificate"></i>
+        <h2>Zertifikate & Skills</h2>
+      </div>
+      <div id="certs-list"></div>
+    </div>
+
+    <footer>
+      <p class="glitch">13Spookz37 © 2025</p>
+      <p>[ <span class="highlight">CYBERPUNK MODE</span> ENABLED ]</p>
+    </footer>
   </div>
-</body>
-</html>
+
+  <script>
+    // Terminal functionality
+    const terminalInput = document.getElementById('terminal-input');
+    const terminalOutput = document.getElementById('terminal-output');
+    const terminalBody = document.getElementById('terminal-body');
+    const prompt = document.getElementById('prompt');
+
+    // File system simulation
+    const fileSystem = {
+      '~': {
+        type: 'directory',
+        contents: ['projects', 'diary', 'certs', 'tools', 'README.txt']
+      },
+      '~/projects': {
+        type: 'directory',
+        contents: ['vulnscanner.py', 'exploit_db.sh', 'reverse_shell.c', 'wifi_cracker.py']
+      },
+      '~/diary': {
+        type: 'directory',
+        contents: ['entry_001.txt', 'entry_002.txt', 'entry_003.txt']
+      },
+      '~/certs': {
+        type: 'directory',
+        contents: ['OSCP.pdf', 'CEH.pdf', 'CISSP.pdf', 'skills.txt']
+      },
+      '~/tools': {
+        type: 'directory',
+        contents: ['nmap', 'metasploit', 'burpsuite', 'wireshark']
+      },
+      '~/README.txt': {
+        type: 'file',
+        content: `
+╔═══════════════════════════════════════════════════════════╗
+║                   WILLKOMMEN IM SYSTEM                    ║
+║                                                           ║
+║  Ich bin 13Spookz37, Pentester und Cyber-Enthusiast.     ║
+║  Diese Seite ist mein digitales Hauptquartier.           ║
+║                                                           ║
+║  Verfügbare Befehle:                                      ║
+║  - help        : Zeigt alle Befehle                      ║
+║  - ls          : Listet Dateien auf                      ║
+║  - cd <dir>    : Wechselt Verzeichnis                    ║
+║  - cat <file>  : Zeigt Dateiinhalt                       ║
+║  - pwd         : Zeigt aktuelles Verzeichnis             ║
+║  - clear       : Löscht Terminal                         ║
+║  - whoami      : Zeigt Benutzerinfo                      ║
+║  - skills      : Zeigt meine Fähigkeiten                 ║
+║  - contact     : Kontaktinformationen                    ║
+║                                                           ║
+║  "The only way to learn is to live in the code."         ║
+╚═══════════════════════════════════════════════════════════╝`
+      },
+      '~/projects/vulnscanner.py': {
+        type: 'file',
+        content: `#!/usr/bin/env python3
+# Vulnerability Scanner v2.0
+# Scannt Netzwerke nach bekannten Schwachstellen
+# Status: In Entwicklung
+# Features: Port-Scanning, Service-Detection, CVE-Check`
+      },
+      '~/projects/exploit_db.sh': {
+        type: 'file',
+        content: `#!/bin/bash
+# Exploit Database Manager
+# Sammlung von Proof-of-Concepts und Exploits
+# Nur für Bildungszwecke!`
+      },
+      '~/diary/entry_001.txt': {
+        type: 'file',
+        content: `[2025-01-15] - Der erste Zugriff
+-----------------------------------
+Heute habe ich meine erste erfolgreiche Penetration durchgeführt.
+Das Ziel war ein Testsystem mit veralteter Software.
+Verwendete Tools: nmap, metasploit
+Schwachstelle: CVE-2024-1234
+Lesson learned: Immer die Basics checken!`
+      },
+      '~/diary/entry_002.txt': {
+        type: 'file',
+        content: `[2025-02-20] - Privilege Escalation
+------------------------------------
+Neue Technik gelernt: SUID Binary Exploitation
+Nach stundenlangem Forschen endlich root bekommen.
+Der Trick war ein fehlkonfiguriertes Backup-Script.
+Note to self: Enumeration ist der Schlüssel!`
+      },
+      '~/certs/skills.txt': {
+        type: 'file',
+        content: `TECHNICAL SKILLS
+================
+- Penetration Testing (Web, Network, Wireless)
+- Exploit Development
+- Reverse Engineering
+- Social Engineering
+- OSINT & Reconnaissance
+- Cryptography & Steganography
+
+TOOLS & FRAMEWORKS
+==================
+- Metasploit, Burp Suite, OWASP ZAP
+- Nmap, Wireshark, John the Ripper
+- Python, Bash, C, Assembly
+- Kali Linux, Parrot OS
+- Docker, Kubernetes
+
+CERTIFICATIONS
+==============
+- OSCP (in progress)
+- CEH (completed)
+- Security+ (completed)`
+      }
+    };
+
+    let currentDirectory = '~';
+    let commandHistory = [];
+    let historyIndex = -1;
+
+    // Initialize terminal
+    function initTerminal() {
+      printASCII();
+      println('System initialisiert...', 'success');
+      println('Tippe "help" für verfügbare Befehle.\n', 'info');
+    }
+
+    function printASCII() {
+      const ascii = `
+ ▄█  ▄▄▄▄▄   ▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄   ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ 
+███ ▀▀▀▀▀▀█ ▀▀▀▀▀▀█ ▀▀▀▀▀▀██ ▀▀▀▀▀▀██ ▀▀▀▀▀▀██ ▀▀▀▀▀██ ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀ 
+ ▀█       █▄       █       ██       ██       ██      ██                  
+  █▄▄▄▄▄▄▄█ ▄▄▄▄▄▄█  ██▄▄▄█▀  ██▄▄▄█▀  ██▄▄▄█▀ ██▄▄▄█▀  ▄▄▄▄▄▄   ▄▄▄▄▄  
+  ▄▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█  ██▀▀▀▀   ██▀▀▀▀   ██▀▀▀▀  ██▀▀▀▀   ▀▀▀▀▀▀█  ▀▀▀▀█  
+ █▀       ▀█       █  ██       ██       ██      ██              █      █  
+███▄▄▄▄▄▄█▀ ▄▄▄▄▄▄█  ██       ██▄▄▄▄▄  ██      ██▄▄▄▄▄ ▄▄▄▄▄▄▄█  ▄▄▄█▀  
+ ▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀  ▀▀       ▀▀▀▀▀▀▀  ▀▀      ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀  ▀▀▀▀   
+`;
+      println(ascii, 'ascii-art');
+    }
+
+    function println(text, className = '') {
+      const line = document.createElement('div');
+      line.className = `terminal-line ${className}`;
+      line.textContent = text;
+      terminalOutput.appendChild(line);
+      scrollToBottom();
+    }
+
+    function printHTML(html, className = '') {
+      const line = document.createElement('div');
+      line.className = `terminal-line ${className}`;
+      line.innerHTML = html;
+      terminalOutput.appendChild(line);
+      scrollToBottom();
+    }
+
+    function scrollToBottom() {
+      terminalBody.scrollTop = terminalBody.scrollHeight;
+    }
+
+    function executeCommand(input) {
+      const args = input.trim().split(' ');
+      const command = args[0].toLowerCase();
+
+      println(`${prompt.textContent}${input}`, 'command');
+
+      switch (command) {
+        case '':
+          break;
+        case 'help':
+          showHelp();
+          break;
+        case 'clear':
+          terminalOutput.innerHTML = '';
+          break;
+        case 'ls':
+          listDirectory(args[1]);
+          break;
+        case 'cd':
+          changeDirectory(args[1]);
+          break;
+        case 'cat':
+          catFile(args[1]);
+          break;
+        case 'pwd':
+          println(currentDirectory, 'success');
+          break;
+        case 'whoami':
+          println('13Spookz37 - Ethical Hacker & Penetration Tester', 'highlight');
+          println('Location: Deep Web', 'info');
+          println('Status: Always learning, always hacking (ethically)', 'info');
+          break;
+        case 'skills':
+          showSkills();
+          break;
+        case 'contact':
+          println('GitHub: github.com/13Spookz37', 'success');
+          println('Email: 13spookz37@protonmail.com', 'success');
+          println('PGP Key: Available on request', 'info');
+          break;
+        case 'date':
+          println(new Date().toString(), 'info');
+          break;
+        case 'hack':
+          println('Initiating hack sequence...', 'warning');
+          setTimeout(() => println('Access Denied! Nice try ;)', 'error'), 1000);
+          break;
+        case 'matrix':
+          startMatrix();
+          break;
+        default:
+          println(`bash: ${command}: command not found`, 'error');
+          println('Tippe "help" für verfügbare Befehle.', 'info');
+      }
+    }
+
+    function showHelp() {
+      const helpText = `
+Verfügbare Befehle:
+  help        - Zeigt diese Hilfe
+  ls [dir]    - Listet Dateien und Verzeichnisse
+  cd <dir>    - Wechselt das Verzeichnis
+  cat <file>  - Zeigt Dateiinhalt
+  pwd         - Zeigt aktuelles Verzeichnis
+  clear       - Löscht das Terminal
+  whoami      - Zeigt Benutzerinformationen
+  skills      - Zeigt technische Fähigkeiten
+  contact     - Zeigt Kontaktinformationen
+  date        - Zeigt aktuelles Datum
+  matrix      - Aktiviert Matrix-Effekt
+  
+Navigation:
+  Nutze TAB für Autovervollständigung
+  Nutze Pfeiltasten für Command-History`;
+      println(helpText, 'info');
+    }
+
+    function listDirectory(path) {
+      const targetPath = path ? resolvePath(path) : currentDirectory;
+      
+      if (fileSystem[targetPath] && fileSystem[targetPath].type === 'directory') {
+        const contents = fileSystem[targetPath].contents;
+        contents.forEach(item => {
+          const fullPath = `${targetPath}/${item}`.replace('//', '/');
+          if (fileSystem[fullPath] && fileSystem[fullPath].type === 'directory') {
+            printHTML(`<span class="highlight">${item}/</span>`, '');
+          } else {
+            println(item, 'success');
+          }
+        });
+      } else {
+        println(`ls: cannot access '${path || '.'}': No such file or directory`, 'error');
+      }
+    }
+
+    function changeDirectory(path) {
+      if (!path || path === '~') {
+        currentDirectory = '~';
+        updatePrompt();
+        showSection('none');
+        return;
+      }
+
+      const targetPath = resolvePath(path);
+      
+      if (fileSystem[targetPath] && fileSystem[targetPath].type === 'directory') {
+        currentDirectory = targetPath;
+        updatePrompt();
+        
+        // Show corresponding section
+        if (targetPath.includes('projects')) {
+          showSection('projects');
+        } else if (targetPath.includes('diary')) {
+          showSection('diary');
+        } else if (targetPath.includes('certs')) {
+          showSection('certs');
+        } else {
+          showSection('none');
+        }
+      } else {
+        println(`cd: ${path}: No such file or directory`, 'error');
+      }
+    }
+
+    function catFile(filename) {
+      if (!filename) {
+        println('cat: missing file operand', 'error');
+        return;
+      }
+
+      const filePath = resolvePath(filename);
+      
+      if (fileSystem[filePath] && fileSystem[filePath].type === 'file') {
+        println(fileSystem[filePath].content, 'info');
+      } else {
+        println(`cat: ${filename}: No such file or directory`, 'error');
+      }
+    }
+
+    function resolvePath(path) {
+      if (!path) return currentDirectory;
+      if (path.startsWith('~/')) return path;
+      if (path === '..') {
+        const parts = currentDirectory.split('/');
+        parts.pop();
+        return parts.join('/') || '~';
+      }
+      if (path.startsWith('/')) return '~' + path;
+      return `${currentDirectory}/${path}`.replace('//', '/');
+    }
+
+    function updatePrompt() {
+      const displayPath = currentDirectory.replace('~', '~');
+      prompt.textContent = `13Spookz37@cyberpunk:${displayPath}$ `;
+    }
+
+    function showSkills() {
+      const skills = `
+╔══════════════════════════════════════════╗
+║           TECHNICAL SKILLS               ║
+╠══════════════════════════════════════════╣
+║ • Web Application Penetration Testing    ║
+║ • Network Security Assessment            ║
+║ • Wireless Security Testing              ║
+║ • Social Engineering                     ║
+║ • Exploit Development                    ║
+║ • Reverse Engineering                    ║
+║ • OSINT & Reconnaissance                 ║
+╚══════════════════════════════════════════╝`;
+      println(skills, 'highlight');
+    }
+
+    function showSection(section) {
+      // Hide all sections
+      document.querySelectorAll('.content-section').forEach(s => {
+        s.style.display = 'none';
+      });
+
+      // Show selected section
+      switch(section) {
+        case 'projects':
+          showProjects();
+          break;
+        case 'diary':
+          showDiary();
+          break;
+        case 'certs':
+          showCerts();
+          break;
+      }
+    }
+
+    function showProjects() {
+      const section = document.getElementById('projects-section');
+      const list = document.getElementById('projects-list');
+      
+      list.innerHTML = `
+        <div class="preview-item">
+          <div class="preview-item-header">
+            <span class="preview-item-title">VulnScanner v2.0</span>
+            <span class="pr
