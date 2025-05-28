@@ -677,4 +677,80 @@ Navigation:
           </div>
         </div>
         <div class="preview-item">
-          
+          <div class="preview-item-header">
+            <span class="preview-item-title">Exploit Database</span>
+            <span class="preview-item-date">Bash/Python</span>
+          </div>
+          <div class="preview-item-content">
+            Kuratierte Sammlung von Proof-of-Concepts und Exploits.
+            Kategorisiert nach CVE, Schweregrad und betroffenen Systemen.
+          </div>
+        </div>
+        <div class="preview-item">
+          <div class="preview-item-header">
+            <span class="preview-item-title">Reverse Shell Generator</span>
+            <span class="preview-item-date">C/Assembly</span>
+          </div>
+          <div class="preview-item-content">
+            Generiert angepasste Reverse Shells für verschiedene Umgebungen.
+            Unterstützt Verschleierung und AV-Evasion Techniken.
+          </div>
+        </div>
+      `;
+      
+      section.style.display = 'block';
+    }
+
+    function showDiary() {
+      const section = document.getElementById('diary-section');
+      const list = document.getElementById('diary-list');
+      
+      list.innerHTML = `
+        <div class="preview-item">
+          <div class="preview-item-header">
+            <span class="preview-item-title">Entry #001 - Der erste Zugriff</span>
+            <span class="preview-item-date">2025-01-15</span>
+          </div>
+          <div class="preview-item-content">
+            Erste erfolgreiche Penetration eines Testsystems. Verwendete eine 
+            Kombination aus veralteter Software und fehlender Patch-Policy.
+          </div>
+        </div>
+        <div class="preview-item">
+          <div class="preview-item-header">
+            <span class="preview-item-title">Entry #002 - Privilege Escalation</span>
+            <span class="preview-item-date">2025-02-20</span>
+          </div>
+          <div class="preview-item-content">
+            SUID Binary Exploitation erfolgreich durchgeführt. Das fehlkonfigurierte
+            Backup-Script war der Schlüssel zum Root-Zugriff.
+          </div>
+        </div>
+        <div class="preview-item">
+          <div class="preview-item-header">
+            <span class="preview-item-title">Entry #003 - Zero-Day Discovery</span>
+            <span class="preview-item-date">2025-03-10</span>
+          </div>
+          <div class="preview-item-content">
+            Potentielle Zero-Day Schwachstelle in populärer Web-Anwendung entdeckt.
+            Responsible Disclosure Prozess eingeleitet.
+          </div>
+        </div>
+      `;
+      
+      section.style.display = 'block';
+    }
+
+    function showCerts() {
+      const section = document.getElementById('certs-section');
+      const list = document.getElementById('certs-list');
+      
+      list.innerHTML = `
+        <div class="preview-item">
+          <div class="preview-item-header">
+            <span class="preview-item-title">OSCP - Offensive Security Certified Professional</span>
+            <span class="preview-item-date">In Progress</span>
+          </div>
+          <div class="preview-item-content">
+            Die härteste praktische Pentesting-Zertifizierung. 24-Stunden Prüfung
+            mit realen Penetrationstests. Try Harder!
