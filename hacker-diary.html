@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>13Spookz37 - Hacker Manga Tagebuch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'Share Tech Mono', monospace;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Matrix Background */
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 255, 204, 0.1) 2px,
+          rgba(0, 255, 204, 0.1) 4px
+        );
+      animation: matrix-scroll 20s linear infinite;
+    }
+
+    @keyframes matrix-scroll {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(20px); }
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 2px solid #00ffcc;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .header h1 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      background: linear-gradient(45deg, #00ffcc, #ff00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(0, 255, 204, 0.5);
+    }
+
+    .header p {
+      color: #888;
+      margin-top: 0.5rem;
+    }
+
+    /* Navigation */
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid #00ffcc;
+      color: #00ffcc;
+      padding: 0.5rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .nav-btn:hover {
+      background: #00ffcc;
+      color: #0a0a0a;
+      box-shadow: 0 0 20px #00ffcc;
+      transform: translateY(-2px);
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, #00ffcc, #ff00ff, #00ffcc);
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+    }
+
+    /* Manga Panel */
+    .manga-panel {
+      position: relative;
+      margin: 3rem 0;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: panelAppear 0.8s forwards;
+    }
+
+    .manga-panel:nth-child(even) {
+      animation-delay: 0.2s;
+    }
+
+    .manga-panel:nth-child(odd) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes panelAppear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .panel-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      position: relative;
+    }
+
+    .panel-container:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .panel-date {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0a0a0a;
+      padding: 0.5rem 1rem;
+      border: 2px solid #ff00ff;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: #ff00ff;
+      font-weight: bold;
+    }
+
+    .panel-image {
+      flex: 1;
+      max-width: 500px;
+      position: relative;
+      group: panel;
+    }
+
+    .panel-image img {
+      width: 100%;
+      height: auto;
+      border: 3px solid #00ffcc;
+      border-radius: 10px;
+      box-shadow: 
+        0 0 30px rgba(0, 255, 204, 0.3),
+        inset 0 0 30px rgba(0, 255, 204, 0.1);
+      transition: all 0.3s;
+    }
+
+    .panel-image:hover img {
+      transform: scale(1.02);
+      box-shadow: 
+        0 0 50px rgba(0, 255, 204, 0.5),
+        inset 0 0 50px rgba(0, 255, 204, 0.2);
+    }
+
+    /* Manga Effects */
+    .action-lines {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .panel-image:hover .action-lines {
+      opacity: 1;
+    }
+
+    .action-lines::before,
+    .action-lines::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, transparent 30%, rgba(255, 0, 255, 0.1) 60%, transparent 70%);
+      animation: actionPulse 2s infinite;
+    }
+
+    @keyframes actionPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(0.8); }
+      50% { transform: translate(-50%, -50%) scale(1.2); }
+    }
+
+    .panel-content {
+      flex: 1;
+      max-width: 500px;
+    }
+
+    .panel-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #ff00ff;
+      text-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    }
+
+    .speech-bubble {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ffcc;
+      border-radius: 20px;
+      padding: 1.5rem;
+      position: relative;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+    }
+
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 30px;
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid #00ffcc;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: 32px;
+      width: 0;
+      height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-top: 18px solid rgba(0, 0, 0, 0.8);
+    }
+
+    .panel-container:nth-child(even) .speech-bubble::before {
+      left: auto;
+      right: 30px;
+    }
+
+    .panel-container:nth-child(even) .speech-bubble::after {
+      left: auto;
+      right: 32px;
+    }
+
+    .speech-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #00ffcc;
+    }
+
+    .thought-text {
+      font-style: italic;
+      color: #888;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .skill-tag {
+      background: rgba(255, 0, 255, 0.2);
+      border: 1px solid #ff00ff;
+      color: #ff00ff;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      transition: all 0.3s;
+    }
+
+    .skill-tag:hover {
+      background: #ff00ff;
+      color: #0a0a0a;
+      transform: scale(1.1);
+    }
+
+    /* Sound Effects */
+    .sound-effect {
+      position: absolute;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 3rem;
+      color: #ffff00;
+      text-shadow: 
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        0 0 20px #ffff00;
+      animation: soundPop 0.5s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes soundPop {
+      0% { transform: scale(0) rotate(-10deg); }
+      50% { transform: scale(1.2) rotate(5deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* Chapter Divider */
+    .chapter-divider {
+      text-align: center;
+      margin: 5rem 0;
+      position: relative;
+    }
+
+    .chapter-divider h2 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      background: linear-gradient(45deg, #00ffcc, #ff00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      display: inline-block;
+      padding: 0 2rem;
+    }
+
+    .chapter-divider::before,
+    .chapter-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00ffcc, transparent);
+    }
+
+    .chapter-divider::before {
+      left: 0;
+    }
+
+    .chapter-divider::after {
+      right: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .timeline::before {
+        left: 30px;
+      }
+
+      .panel-container {
+        flex-direction: column !important;
+      }
+
+      .panel-date {
+        left: 30px;
+        transform: translateX(0);
+      }
+
+      .speech-bubble::before,
+      .speech-bubble::after {
+        left: 30px !important;
+        right: auto !important;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0a0a0a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .loading-text {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2rem;
+      color: #00ffcc;
+      animation: glitch 1s infinite;
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 0.05em 0 0 #00ffcc, -0.05em -0.025em 0 #ff00ff; }
+      15% { text-shadow: 0.05em 0 0 #00ffcc, -0.05em -0.025em 0 #ff00ff; }
+      16% { text-shadow: -0.05em -0.025em 0 #00ffcc, 0.025em 0.025em 0 #ff00ff; }
+      49% { text-shadow: -0.05em -0.025em 0 #00ffcc, 0.025em 0.025em 0 #ff00ff; }
+      50% { text-shadow: 0.025em 0.05em 0 #00ffcc, 0.05em 0 0 #ff00ff; }
+      99% { text-shadow: 0.025em 0.05em 0 #00ffcc, 0.05em 0 0 #ff00ff; }
+      100% { text-shadow: -0.025em 0 0 #00ffcc, -0.025em -0.025em 0 #ff00ff; }
+    }
+  </style>
+</head>
+<body>
+  <div class="matrix-bg"></div>
+  
+  <div class="loading" id="loading">
+    <div class="loading-text">LOADING MEMORIES...</div>
+  </div>
+
+  <header class="header">
+    <h1>My Ethical Hacking Journey</h1>
+    <p>Die visuelle Geschichte von 13Spookz37</p>
+    <nav class="nav">
+      <button class="nav-btn" onclick="scrollToChapter('chapter1')">
+        <i class="fas fa-book"></i> Der Anfang
+      </button>
+      <button class="nav-btn" onclick="scrollToChapter('chapter2')">
+        <i class="fas fa-book"></i> Level Up
+      </button>
+      <button class="nav-btn" onclick="scrollToChapter('latest')">
+        <i class="fas fa-forward"></i> Aktuell
+      </button>
+      <button class="nav-btn" onclick="toggleSound()">
+        <i class="fas fa-volume-up" id="sound-icon"></i> Sound
+      </button>
+    </nav>
+  </header>
+
+  <div class="timeline">
+    <div class="chapter-divider" id="chapter1">
+      <h2>Der Anfang: Die ersten Schritte</h2>
+    </div>
+
+    <!-- Woche 1 -->
+    <div class="manga-panel">
+      <div class="panel-container">
+        <div class="panel-date">Woche 1</div>
+        <div class="panel-image">
+          <img src="images/Woche1.png" alt="Woche 1 - Der Anfang">
+          <div class="action-lines"></div>
+          <div class="sound-effect" style="top: 20px; right: 20px;">START!</div>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-title">Hello World, Hacker Edition</h3>
+          <div class="speech-bubble">
+            <p class="speech-text">
+              "Okay, Tag 1 meiner Ethical Hacking Journey! Linux installiert, 
+              Terminal offen, und keine Ahnung was 'sudo' bedeutet. 
+              Aber hey, jeder fängt mal klein an!"
+            </p>
+            <p class="thought-text">
+              *Google ist mein bester Freund geworden*
+            </p>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Linux Basics</span>
+            <span class="skill-tag">Terminal Commands</span>
+            <span class="skill-tag">Kali Linux Setup</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Woche 2 -->
+    <div class="manga-panel">
+      <div class="panel-container">
+        <div class="panel-date">Woche 2</div>
+        <div class="panel-image">
+          <img src="images/Woche2.png" alt="Woche 2 - Erste Tools">
+          <div class="action-lines"></div>
+          <div class="sound-effect" style="bottom: 20px; left: 20px;">SCAN!</div>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-title">Nmap & Die Kunst des Scannens</h3>
+          <div class="speech-bubble">
+            <p class="speech-text">
+              "Mein erstes Nmap-Scan! 'nmap -sV target' - und plötzlich 
+              sehe ich alle offenen Ports. Es ist wie Röntgenblick für Netzwerke!"
+            </p>
+            <p class="thought-text">
+              *Fühle mich wie Neo in der Matrix*
+            </p>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Nmap</span>
+            <span class="skill-tag">Port Scanning</span>
+            <span class="skill-tag">Network Recon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Woche 3 -->
+    <div class="manga-panel">
+      <div class="panel-container">
+        <div class="panel-date">Woche 3</div>
+        <div class="panel-image">
+          <img src="images/Woche3.png" alt="Woche 3 - Web Hacking">
+          <div class="action-lines"></div>
+          <div class="sound-effect" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">INJECT!</div>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-title">SQL Injection - Mein erster Exploit</h3>
+          <div class="speech-bubble">
+            <p class="speech-text">
+              "' OR '1'='1 -- und ich bin drin! DVWA ist mein Playground. 
+              Zum ersten Mal verstehe ich, warum Input Validation so wichtig ist!"
+            </p>
+            <p class="thought-text">
+              *Mit großer Macht kommt große Verantwortung*
+            </p>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">SQL Injection</span>
+            <span class="skill-tag">DVWA</span>
+            <span class="skill-tag">Web Security</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Woche 4 -->
+    <div class="manga-panel">
+      <div class="panel-container">
+        <div class="panel-date">Woche 4</div>
+        <div class="panel-image">
+          <img src="images/Woche4.png" alt="Woche 4 - Metasploit">
+          <div class="action-lines"></div>
+          <div class="sound-effect" style="top: 20px; left: 20px;">EXPLOIT!</div>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-title">Metasploit Framework</h3>
+          <div class="speech-bubble">
+            <p class="speech-text">
+              "use exploit/windows/smb/ms17_010_eternalblue... 
+              set RHOST... exploit! Meine erste Reverse Shell! 
+              Das Gefühl ist unbeschreiblich!"
+            </p>
+            <p class="thought-text">
+              *Ethisch bleiben, immer ethisch bleiben!*
+            </p>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Metasploit</span>
+            <span class="skill-tag">Exploitation</span>
+            <span class="skill-tag">Reverse Shells</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-divider" id="chapter2">
+      <h2>Level Up: Fortgeschrittene Techniken</h2>
+    </div>
+
+    <!-- Woche 5 -->
+    <div class="manga-panel">
+      <div class="panel-container">
+        <div class="panel-date">Woche 5</div>
+        <div class="panel-image">
+          <img src="images/Woche5.png" alt="Woche 5 - Privilege Escalation">
+          <div class="action-lines"></div>
+          <div class="sound-effect" style="bottom: 20px; right: 20px;">ROOT!</div>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-title">Privilege Escalation Mastery</h3>
+          <div class="speech-bubble">
+            <p class="speech-text">
+              "Von www-data zu root in 3 Schritten! LinPEAS ist mein neuer 
+              bester Freund. SUID Binaries? Check. Kernel Exploits? Check. 
+              I am root!"
+            </p>
+            <p class="thought-text">
+              *Der Weg nach oben ist gepflastert mit Enumeration*
+            </p>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Privilege Escalation</span>
+            <span class="skill-tag">LinPEAS</span>
+            <span class="skill-tag">Linux PrivEsc</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Woche 6 -->
+    <div class="manga-panel">
+      <div class="panel-container">
+        <div class="panel-date">Woche 6</div>
+        <div class="panel-image">
+          <img src="images/Woche6.png" alt="Woche 6 - CTF Challenges">
+          <div class="action-lines"></div>
+          <div class="sound-effect" style="top: 30px; right: 30px;">CAPTURED!</div>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-title">CTF - Capture The Flag!</h3>
+          <div class="speech-bubble">
+            <p class="speech-text">
+              "Erste CTF Competition! 48 Stunden, wenig Schlaf, viel Kaffee. 
+              Am Ende: Platz 42 von 200! Für einen Anfänger nicht schlecht!"
+            </p>
+            <p class="thought-text">
+              *CTFs sind wie Drogen - einmal angefangen...*
+            </p>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">CTF</span>
+            <span class="skill-tag">Problem Solving</span>
+            <span class="skill-tag">Time Pressure</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Woche 7 -->
+    <div class="manga-panel">
+      <div class="panel-container">
+        <div class="panel-date">Woche 7</div>
+        <div class="panel-image">
+          <img src="images/Woche7.png" alt="Woche 7 - Python Scripting">
+          <div class="action-lines"></div>
+          <div class="sound-effect" style="bottom: 30px; left: 30px;">AUTOMATE!</div>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-title">Python - Der Hacker's Best Friend</h3>
+          <div class="speech-bubble">
+            <p class="speech-text">
+              "Erstes eigenes Tool geschrieben! Ein Port Scanner in Python. 
+              Okay, es ist langsamer als Nmap, aber es ist MEINS! 
+              import socket never felt so good!"
+            </p>
+            <p class="thought-text">
+              *Von Script-Kiddie zum Script-Schreiber*
+            </p>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Tool Development</span>
+            <span class="skill-tag">Automation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Woche 8 -->
+    <div class="manga-panel" id="latest">
+      <div class="panel-container">
+        <div class="panel-date">Woche 8</div>
+        <div class="panel-image">
+          <img src="images/Woche8.png" alt="Woche 8 - Die Transformation">
+          <div class="action-lines"></div>
+          <div class="sound-effect" style="top: 20px; left: 20px;">EVOLVED!</div>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-title">8 Wochen später...</h3>
+          <div class="speech-bubble">
+            <p class="speech-text">
+              "Von 'Was ist ein Terminal?' zu 'Ich schreibe meine eigenen Exploits'. 
+              Diese Journey ist verrückt! Nächstes Ziel: OSCP Zertifizierung!"
+            </p>
+            <p class="thought-text">
+              *Dies ist erst der Anfang...*
+            </p>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Full Stack Pentesting</span>
+            <span class="skill-tag">Custom Exploits</span>
+            <span class="skill-tag">Security Mindset</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-divider">
+      <h2>Die Journey geht weiter...</h2>
+    </div>
+  </div>
+
+  <!-- Background Audio -->
+  <audio id="bgMusic" loop>
+    <source src="https://example.com/lofi-cyber.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    // Loading Screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+      }, 1500);
+    });
+
+    // Smooth Scroll
+    function scrollToChapter(chapterId) {
+      document.getElementById(chapterId).scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    // Sound Toggle
+    let soundEnabled = false;
+    function toggleSound() {
+      const audio = document.getElementById('bgMusic');
+      const icon = document.getElementById('sound-icon');
+      
+      if (soundEnabled) {
+        audio.pause();
+        icon.className = 'fas fa-volume-mute';
+      } else {
+        audio.play();
+        icon.className = 'fas fa-volume-up';
+      }
+      soundEnabled = !soundEnabled;
+    }
+
+    // Intersection Observer for Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.manga-panel').forEach(panel => {
+      panel.style.animationPlayState = 'paused';
+      observer.observe(panel);
+    });
+
+    // Dynamic Sound Effects
+    document.querySelectorAll('.panel-image').forEach(panel => {
+      panel.addEventListener('click', () => {
+        const effects = ['BOOM!', 'ZAP!', 'CRACK!', 'WHOOSH!', 'PING!'];
+        const effect = effects[Math.floor(Math.random() * effects.length)];
+        
+        const soundDiv = document.createElement('div');
+        soundDiv.className = 'sound-effect';
+        soundDiv.textContent = effect;
+        soundDiv.style.top = Math.random() * 80 + '%';
+        soundDiv.style.left = Math.random() * 80 + '%';
+        
+        panel.appendChild(soundDiv);
+        
+        setTimeout(() => soundDiv.remove(), 1000);
+      });
+    });
+
+    // Add New Entry Function (for future use)
+    function addNewEntry(day, date, title, speech, thought, skills, imageUrl) {
+      const timeline = document.querySelector('.timeline');
+      const newPanel = document.createElement('div');
+      newPanel.className = 'manga-panel';
+      newPanel.innerHTML = `
+        <div class="panel-container">
+          <div class="panel-date">Tag ${day} - ${date}</div>
+          <div class="panel-image">
+            <img src="${imageUrl}" alt="${title}">
+            <div class="action-lines"></div>
+          </div>
+          <div class="panel-content">
+            <h3 class="panel-title">${title}</h3>
+            <div class="speech-bubble">
+              <p class="speech-text">${speech}</p>
+              <p class="thought-text">*${thought}*</p>
+            </div>
+            <div class="skill-tags">
+              ${skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+      
+      timeline.insertBefore(newPanel, timeline.lastElementChild);
+      observer.observe(newPanel);
+    }
+
+    // Terminal Integration Code
+    function openMangaDiary() {
+      window.open('manga-diary.html', '_blank');
+    }
+  </script>
+</body>
+</html>
