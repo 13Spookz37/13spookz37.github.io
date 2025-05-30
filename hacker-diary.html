@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>13Spookz37 - Hacker Manga Tagebuch</title>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <title>13Spookz37 - My Ethical Hacking Journey</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
   <style>
     * {
       margin: 0;
@@ -60,10 +61,10 @@
     }
 
     .header h1 {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 3rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 2.5rem;
       text-transform: uppercase;
-      letter-spacing: 5px;
+      letter-spacing: 3px;
       background: linear-gradient(45deg, #00ffcc, #ff00ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -73,6 +74,32 @@
     .header p {
       color: #888;
       margin-top: 0.5rem;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      margin: 1rem auto;
+      max-width: 600px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid #00ffcc;
+      border-radius: 10px;
+      padding: 0.5rem;
+    }
+
+    .progress-bar {
+      height: 20px;
+      background: linear-gradient(90deg, #00ffcc, #ff00ff);
+      border-radius: 8px;
+      width: 15.4%; /* 8/52 Wochen */
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px #00ffcc;
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #00ffcc;
     }
 
     /* Navigation */
@@ -237,11 +264,11 @@
     }
 
     .panel-title {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 2rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.8rem;
       margin-bottom: 1rem;
       text-transform: uppercase;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       color: #ff00ff;
       text-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
     }
@@ -329,8 +356,9 @@
     /* Sound Effects */
     .sound-effect {
       position: absolute;
-      font-family: 'Bebas Neue', cursive;
-      font-size: 3rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 2.5rem;
+      font-weight: bold;
       color: #ffff00;
       text-shadow: 
         2px 2px 0 #000,
@@ -356,10 +384,10 @@
     }
 
     .chapter-divider h2 {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 3rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 2.2rem;
       text-transform: uppercase;
-      letter-spacing: 5px;
+      letter-spacing: 3px;
       background: linear-gradient(45deg, #00ffcc, #ff00ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -384,6 +412,28 @@
 
     .chapter-divider::after {
       right: 0;
+    }
+
+    /* Lock Overlay for future weeks */
+    .lock-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .future-panel {
+      cursor: not-allowed;
+    }
+
+    .future-panel .panel-image {
+      position: relative;
     }
 
     /* Responsive */
@@ -423,10 +473,12 @@
     }
 
     .loading-text {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 2rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.5rem;
       color: #00ffcc;
       animation: glitch 1s infinite;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
     @keyframes glitch {
@@ -450,6 +502,12 @@
   <header class="header">
     <h1>My Ethical Hacking Journey</h1>
     <p>Die visuelle Geschichte von 13Spookz37</p>
+    
+    <div class="progress-container">
+      <div class="progress-bar"></div>
+      <div class="progress-text">Woche 8 von 52 (15.4%)</div>
+    </div>
+    
     <nav class="nav">
       <button class="nav-btn" onclick="scrollToChapter('chapter1')">
         <i class="fas fa-book"></i> Der Anfang
@@ -478,7 +536,7 @@
         <div class="panel-image">
           <img src="images/Woche1.png" alt="Woche 1 - Der Anfang">
           <div class="action-lines"></div>
-          <div class="sound-effect" style="top: 20px; right: 20px;">START!</div>
+          <div class="sound-effect" style="top: 20px; right: 20px;">INIT!</div>
         </div>
         <div class="panel-content">
           <h3 class="panel-title">Hello World, meine Reise beginnt!</h3>
@@ -487,14 +545,267 @@
              „Okay, Tag 1 meiner Ethical-Hacking-Journey!
               Ich habe ein tolles Buch zum Thema gefunden und versucht, daraus schlau zu werden – leider nur mit mäßigem Erfolg.
                 Darauf folgten Stunden über Stunden voller YouTube-Videos und anderer Online-Medien. Die Flut an Informationen war einfach überwältigend.
-              Aber irgendwo dazwischen habe ich einen Anfang gefunden.“
+              Aber irgendwo dazwischen habe ich einen Anfang gefunden."
             </p>
             <p class="thought-text">
               *Google und ChatGPT ist mein bester Freund geworden*
             </p>
           </div>
           <div class="skill-tags">
-            <span class="skill-tag">Beharrlichkeit</span>
+            <span class="skill-tag">Nmap Basics</span>
+            <span class="skill-tag">Metasploit Basics</span>
+            <span class="skill-tag">Cryptography Basics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Woche 8 -->
+    <div class="manga-panel" id="latest">
+      <div class="panel-container">
+        <div class="panel-date">Woche 8</div>
+        <div class="panel-image">
+          <img src="images/Woche8.png" alt="Woche 8">
+          <div class="action-lines"></div>
+          <div class="sound-effect" style="top: 20px; left: 20px;">EVOLVE!</div>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-title">Kontinuität</h3>
+          <div class="speech-bubble">
+            <p class="speech-text">
+              "Ich habe mir inzwischen eigene Testumgebungen eingerichtet – Metasploitable 2 und 3 laufen, und sogar das Mr. Robot-Lab steht bereit.
+                Meine Erfolge sind noch klein, aber sie kommen. Schritt für Schritt.
+                  Ich dokumentiere alles, was ich mache – irgendwann werde ich das veröffentlichen.
+                Aber erstmal bleibe ich dran und haue weiter in die Tasten.
+                  Sogar auf der Arbeit nutze ich AnkiDroid mit CheatSheets, um nebenbei zu lernen.
+                Das hilft mir, den Kopf fit zu halten und auch tagsüber in der Materie zu bleiben."
+            </p>
+            <p class="thought-text">
+              *Lernen endet nicht, nur weil die Schicht vorbei ist.*
+            </p>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">John the Ripper Basics</span>
+            <span class="skill-tag">Web Application Basics</span>
+            <span class="skill-tag">Burp Suite Basics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-divider">
+      <h2>Die Journey geht weiter...</h2>
+    </div>
+    
+    <!-- Zukünftige Wochen Template -->
+    <div class="future-weeks" id="future-weeks">
+      <h3 style="text-align: center; color: #666; margin: 3rem 0;">
+        <i class="fas fa-lock"></i> Zukünftige Einträge - Werden wöchentlich freigeschaltet
+      </h3>
+    </div>
+  </div>
+
+  <!-- Background Audio -->
+  <audio id="bgMusic" loop>
+    <source src="sounds/lofi-hacking.mp3" type="audio/mp3">
+    <!-- Fallback: Lade lokale Datei wenn vorhanden -->
+  </audio>
+  
+  <!-- Sound Effects -->
+  <audio id="clickSound" preload="auto">
+    <source src="sounds/click.wav" type="audio/wav">
+  </audio>
+  
+  <script>
+    // Loading Screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+      }, 1500);
+    });
+
+    // Smooth Scroll
+    function scrollToChapter(chapterId) {
+      document.getElementById(chapterId).scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    // Sound Toggle
+    let soundEnabled = false;
+    function toggleSound() {
+      const audio = document.getElementById('bgMusic');
+      const icon = document.getElementById('sound-icon');
+      
+      if (soundEnabled) {
+        audio.pause();
+        icon.className = 'fas fa-volume-mute';
+      } else {
+        audio.play().catch(e => console.log('Audio play failed:', e));
+        icon.className = 'fas fa-volume-up';
+      }
+      soundEnabled = !soundEnabled;
+    }
+
+    // Play click sound
+    function playClickSound() {
+      if (soundEnabled) {
+        const click = document.getElementById('clickSound');
+        click.currentTime = 0;
+        click.play().catch(e => console.log('Click sound failed:', e));
+      }
+    }
+
+    // Intersection Observer for Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.manga-panel').forEach(panel => {
+      panel.style.animationPlayState = 'paused';
+      observer.observe(panel);
+    });
+
+    // Dynamic Sound Effects with Click Sound
+    document.querySelectorAll('.panel-image').forEach(panel => {
+      panel.addEventListener('click', () => {
+        playClickSound();
+        const effects = ['BOOM!', 'ZAP!', 'CRACK!', 'HACK!', 'BREACH!', 'PWNED!', 'ROOT!'];
+        const effect = effects[Math.floor(Math.random() * effects.length)];
+        
+        const soundDiv = document.createElement('div');
+        soundDiv.className = 'sound-effect';
+        soundDiv.textContent = effect;
+        soundDiv.style.top = Math.random() * 80 + '%';
+        soundDiv.style.left = Math.random() * 80 + '%';
+        
+        panel.appendChild(soundDiv);
+        
+        setTimeout(() => soundDiv.remove(), 1000);
+      });
+    });
+
+    // Generate future weeks (Week 9-52)
+    function generateFutureWeeks() {
+      const futureContainer = document.getElementById('future-weeks');
+      const startDate = new Date('2025-01-01');
+      
+      for (let week = 9; week <= 52; week++) {
+        const weekDate = new Date(startDate);
+        weekDate.setDate(weekDate.getDate() + (week - 1) * 7);
+        
+        const panel = document.createElement('div');
+        panel.className = 'manga-panel future-panel';
+        panel.style.opacity = '0.3';
+        panel.style.filter = 'grayscale(100%)';
+        
+        panel.innerHTML = `
+          <div class="panel-container">
+            <div class="panel-date">Woche ${week} - ${weekDate.toLocaleDateString('de-DE')}</div>
+            <div class="panel-image">
+              <img src="images/placeholder.png" alt="Woche ${week} - Coming Soon" 
+                   onerror="this.src='https://via.placeholder.com/500x400/1a1a1a/666?text=WOCHE+${week}%0AComing+Soon'">
+              <div class="lock-overlay">
+                <i class="fas fa-lock" style="font-size: 3rem; color: #666;"></i>
+              </div>
+            </div>
+            <div class="panel-content">
+              <h3 class="panel-title">Woche ${week} - ???</h3>
+              <div class="speech-bubble">
+                <p class="speech-text">
+                  Diese Woche wird freigeschaltet, sobald ich sie erlebe...
+                </p>
+                <p class="thought-text">
+                  *Stay tuned!*
+                </p>
+              </div>
+              <div class="skill-tags">
+                <span class="skill-tag">???</span>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        futureContainer.appendChild(panel);
+      }
+    }
+
+    // Check if current week should be unlocked
+    function checkCurrentWeek() {
+      const startDate = new Date('2025-01-01');
+      const currentDate = new Date();
+      const weeksPassed = Math.floor((currentDate - startDate) / (7 * 24 * 60 * 60 * 1000)) + 1;
+      
+      // Update progress bar
+      const progressBar = document.querySelector('.progress-bar');
+      const progressText = document.querySelector('.progress-text');
+      const progress = Math.min((weeksPassed / 52) * 100, 100);
+      
+      progressBar.style.width = progress + '%';
+      progressText.textContent = `Woche ${Math.min(weeksPassed, 52)} von 52 (${progress.toFixed(1)}%)`;
+      
+      // Unlock weeks up to current week
+      document.querySelectorAll('.future-panel').forEach((panel, index) => {
+        const weekNumber = index + 9;
+        if (weekNumber <= weeksPassed) {
+          panel.style.opacity = '1';
+          panel.style.filter = 'none';
+          panel.querySelector('.lock-overlay').style.display = 'none';
+        }
+      });
+    }
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      switch(e.key) {
+        case 'Escape':
+          window.location.href = '/';
+          break;
+        case 'ArrowLeft':
+          // Navigate to previous week
+          break;
+        case 'ArrowRight':
+          // Navigate to next week
+          break;
+        case ' ':
+          e.preventDefault();
+          toggleSound();
+          break;
+      }
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      generateFutureWeeks();
+      checkCurrentWeek();
+      
+      // Re-attach click handlers after generating future weeks
+      document.querySelectorAll('.panel-image').forEach(panel => {
+        panel.addEventListener('click', () => {
+          playClickSound();
+          const effects = ['BOOM!', 'ZAP!', 'CRACK!', 'HACK!', 'BREACH!', 'PWNED!', 'ROOT!'];
+          const effect = effects[Math.floor(Math.random() * effects.length)];
+          
+          const soundDiv = document.createElement('div');
+          soundDiv.className = 'sound-effect';
+          soundDiv.textContent = effect;
+          soundDiv.style.top = Math.random() * 80 + '%';
+          soundDiv.style.left = Math.random() * 80 + '%';
+          
+          panel.appendChild(soundDiv);
+          
+          setTimeout(() => soundDiv.remove(), 1000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>="skill-tag">Beharrlichkeit</span>
             <span class="skill-tag">Ausdauer</span>
             <span class="skill-tag">Wissbegierde</span>
           </div>
@@ -539,7 +850,7 @@
         <div class="panel-image">
           <img src="images/Woche3.jpg" alt="Woche 3">
           <div class="action-lines"></div>
-          <div class="sound-effect" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">INIT!</div>
+          <div class="sound-effect" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">LEARN!</div>
         </div>
         <div class="panel-content">
           <h3 class="panel-title">lernen, lernen und nochmal lernen...</h3>
@@ -569,7 +880,7 @@
         <div class="panel-image">
           <img src="images/Woche4.jpg" alt="Woche 4">
           <div class="action-lines"></div>
-          <div class="sound-effect" style="top: 20px; left: 20px;">LAUNCH!</div>
+          <div class="sound-effect" style="top: 20px; left: 20px;">GRIND!</div>
         </div>
         <div class="panel-content">
           <h3 class="panel-title">Here we go again!</h3>
@@ -605,7 +916,7 @@
         <div class="panel-image">
           <img src="images/Woche5.jpg" alt="Woche 5">
           <div class="action-lines"></div>
-          <div class="sound-effect" style="bottom: 20px; right: 20px;">WHOIS!</div>
+          <div class="sound-effect" style="bottom: 20px; right: 20px;">FOCUS!</div>
         </div>
         <div class="panel-content">
           <h3 class="panel-title">Meine Gedanken kreisen um Mehr!</h3>
@@ -638,7 +949,7 @@
         <div class="panel-image">
           <img src="images/Woche6.jpg" alt="Woche 6">
           <div class="action-lines"></div>
-          <div class="sound-effect" style="top: 30px; right: 30px;">OOPS!</div>
+          <div class="sound-effect" style="top: 30px; right: 30px;">PAUSE!</div>
         </div>
         <div class="panel-content">
           <h3 class="panel-title">In der Ruhe liegt die Kraft</h3>
@@ -671,7 +982,7 @@
         <div class="panel-image">
           <img src="images/Woche7.png" alt="Woche 7">
           <div class="action-lines"></div>
-          <div class="sound-effect" style="bottom: 30px; left: 30px;">TIRED!</div>
+          <div class="sound-effect" style="bottom: 30px; left: 30px;">PERSIST!</div>
         </div>
         <div class="panel-content">
           <h3 class="panel-title">Work hard, hack harder!</h3>
@@ -679,7 +990,7 @@
             <p class="speech-text">
               "Mit Nmap und Co. habe ich meine ersten Erfahrungen gesammelt – läuft ganz gut bisher.
                 Auch im Google-Zertifikatsprogramm komme ich weiter, bin mittlerweile bei Kurs 6 von 8 angekommen.
-                  Bei TryHackMe bin ich im Cybersecurity Path bei etwa 40 %. Macht echt Spaß, auch wenn’s manchmal fordernd ist.
+                  Bei TryHackMe bin ich im Cybersecurity Path bei etwa 40 %. Macht echt Spaß, auch wenn's manchmal fordernd ist.
                     Leider hat mich eine Erkältung erwischt – dazu kommt noch ordentlich Stress.
                       Aber egal: Keep going, ich nehme das Tempo einfach etwas raus.
                     Es ist schon wieder spät geworden … um 2 Uhr morgens klingelt der Wecker. Arbeit ruft.
@@ -689,155 +1000,4 @@
               *Selbst kleine Schritte sind Fortschritt*
             </p>
           </div>
-          <div class="skill-tags">
-            <span class="skill-tag">Nmap Basics</span>
-            <span class="skill-tag">Metasploit Basics</span>
-            <span class="skill-tag">Cryptography Basics</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Woche 8 -->
-    <div class="manga-panel" id="latest">
-      <div class="panel-container">
-        <div class="panel-date">Woche 8</div>
-        <div class="panel-image">
-          <img src="images/Woche8.png" alt="Woche 8">
-          <div class="action-lines"></div>
-          <div class="sound-effect" style="top: 20px; left: 20px;">EVOLVED!</div>
-        </div>
-        <div class="panel-content">
-          <h3 class="panel-title">Kontinuität</h3>
-          <div class="speech-bubble">
-            <p class="speech-text">
-              "Ich habe mir inzwischen eigene Testumgebungen eingerichtet – Metasploitable 2 und 3 laufen, und sogar das Mr. Robot-Lab steht bereit.
-                Meine Erfolge sind noch klein, aber sie kommen. Schritt für Schritt.
-                  Ich dokumentiere alles, was ich mache – irgendwann werde ich das veröffentlichen.
-                Aber erstmal bleibe ich dran und haue weiter in die Tasten.
-                  Sogar auf der Arbeit nutze ich AnkiDroid mit CheatSheets, um nebenbei zu lernen.
-                Das hilft mir, den Kopf fit zu halten und auch tagsüber in der Materie zu bleiben."
-            </p>
-            <p class="thought-text">
-              *Lernen endet nicht, nur weil die Schicht vorbei ist.*
-            </p>
-          </div>
-          <div class="skill-tags">
-            <span class="skill-tag">John the Ripper Basics</span>
-            <span class="skill-tag">Web Application Basics</span>
-            <span class="skill-tag">Burp Suite Basics</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chapter-divider">
-      <h2>Die Journey geht weiter...</h2>
-    </div>
-  </div>
-
-  <!-- Background Audio -->
-  <audio id="bgMusic" loop>
-    <source src="https://example.com/lofi-cyber.mp3" type="audio/mp3">
-  </audio>
-
-  <script>
-    // Loading Screen
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loading').style.display = 'none';
-      }, 1500);
-    });
-
-    // Smooth Scroll
-    function scrollToChapter(chapterId) {
-      document.getElementById(chapterId).scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-
-    // Sound Toggle
-    let soundEnabled = false;
-    function toggleSound() {
-      const audio = document.getElementById('bgMusic');
-      const icon = document.getElementById('sound-icon');
-      
-      if (soundEnabled) {
-        audio.pause();
-        icon.className = 'fas fa-volume-mute';
-      } else {
-        audio.play();
-        icon.className = 'fas fa-volume-up';
-      }
-      soundEnabled = !soundEnabled;
-    }
-
-    // Intersection Observer for Animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.animationPlayState = 'running';
-        }
-      });
-    }, { threshold: 0.5 });
-
-    document.querySelectorAll('.manga-panel').forEach(panel => {
-      panel.style.animationPlayState = 'paused';
-      observer.observe(panel);
-    });
-
-    // Dynamic Sound Effects
-    document.querySelectorAll('.panel-image').forEach(panel => {
-      panel.addEventListener('click', () => {
-        const effects = ['BOOM!', 'ZAP!', 'CRACK!', 'WHOOSH!', 'PING!'];
-        const effect = effects[Math.floor(Math.random() * effects.length)];
-        
-        const soundDiv = document.createElement('div');
-        soundDiv.className = 'sound-effect';
-        soundDiv.textContent = effect;
-        soundDiv.style.top = Math.random() * 80 + '%';
-        soundDiv.style.left = Math.random() * 80 + '%';
-        
-        panel.appendChild(soundDiv);
-        
-        setTimeout(() => soundDiv.remove(), 1000);
-      });
-    });
-
-    // Add New Entry Function (for future use)
-    function addNewEntry(day, date, title, speech, thought, skills, imageUrl) {
-      const timeline = document.querySelector('.timeline');
-      const newPanel = document.createElement('div');
-      newPanel.className = 'manga-panel';
-      newPanel.innerHTML = `
-        <div class="panel-container">
-          <div class="panel-date">Tag ${day} - ${date}</div>
-          <div class="panel-image">
-            <img src="${imageUrl}" alt="${title}">
-            <div class="action-lines"></div>
-          </div>
-          <div class="panel-content">
-            <h3 class="panel-title">${title}</h3>
-            <div class="speech-bubble">
-              <p class="speech-text">${speech}</p>
-              <p class="thought-text">*${thought}*</p>
-            </div>
-            <div class="skill-tags">
-              ${skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
-            </div>
-          </div>
-        </div>
-      `;
-      
-      timeline.insertBefore(newPanel, timeline.lastElementChild);
-      observer.observe(newPanel);
-    }
-
-    // Terminal Integration Code
-    function openMangaDiary() {
-      window.open('manga-diary.html', '_blank');
-    }
-  </script>
-</body>
-</html>
+          <div class
