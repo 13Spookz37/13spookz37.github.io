@@ -42,8 +42,8 @@
       background: #000;
       color: #0f0;
       --primary-color: #0f0;
-      --secondary-color: #090;
-      --accent-color: #0a0;
+      --secondary-color: #00ff00;
+      --accent-color: #090;
       --border-color: #0f0;
     }
 
@@ -59,12 +59,12 @@
 
     /* Retro Theme */
     body.theme-retro {
-      background: #1a1a0a;
-      color: #ffa500;
-      --primary-color: #ffa500;
-      --secondary-color: #ff6600;
-      --accent-color: #ffff00;
-      --border-color: #ffa500;
+      background: #2b1810;
+      color: #ff8000;
+      --primary-color: #ff8000;
+      --secondary-color: #ffaa00;
+      --accent-color: #00ff00;
+      --border-color: #ff8000;
     }
 
     /* Matrix Background */
@@ -76,6 +76,20 @@
       height: 100%;
       opacity: 0.1;
       z-index: -1;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Matrix effect visibility boost */
+    body.theme-matrix #matrix-canvas {
+      opacity: 0.4;
+    }
+
+    body.theme-cyberpunk #matrix-canvas {
+      opacity: 0.1;
+    }
+
+    body.theme-retro #matrix-canvas {
+      opacity: 0.05;
     }
 
     .container {
@@ -337,6 +351,7 @@
     /* CRT Effect for Retro Theme */
     body.theme-retro .terminal {
       animation: crt-flicker 0.15s infinite linear;
+      position: relative;
     }
 
     body.theme-retro .terminal::after {
@@ -348,26 +363,39 @@
       height: 100%;
       background: repeating-linear-gradient(
         0deg,
-        rgba(0, 0, 0, 0.03),
-        rgba(0, 0, 0, 0.03) 1px,
+        rgba(255, 128, 0, 0.03),
+        rgba(255, 128, 0, 0.03) 1px,
         transparent 1px,
-        transparent 2px
+        transparent 3px
       );
       pointer-events: none;
+      z-index: 1;
+    }
+
+    body.theme-retro .terminal-body {
+      position: relative;
+      z-index: 2;
     }
 
     @keyframes crt-flicker {
       0% { opacity: 1; }
-      98% { opacity: 1; }
-      99% { opacity: 0.98; }
+      97% { opacity: 1; }
+      98% { opacity: 0.96; }
+      99% { opacity: 0.94; }
       100% { opacity: 1; }
     }
 
     /* Matrix Theme Effects */
     body.theme-matrix .terminal {
       box-shadow: 
-        0 0 40px rgba(0, 255, 0, 0.5),
-        inset 0 0 40px rgba(0, 255, 0, 0.1);
+        0 0 40px rgba(0, 255, 0, 0.8),
+        inset 0 0 40px rgba(0, 255, 0, 0.2);
+      background: rgba(0, 20, 0, 0.95);
+    }
+
+    body.theme-matrix .terminal-header {
+      background: linear-gradient(90deg, #001100 0%, #002200 100%);
+      border-bottom: 1px solid #00ff00;
     }
 
     /* Footer */
@@ -811,6 +839,8 @@ CERTIFICATIONS
       // Special effects for different themes
       if (themeName === 'matrix') {
         toggleMatrix(true);
+      } else if (themeName === 'retro') {
+        toggleMatrix(false);
       } else {
         toggleMatrix(false);
       }
@@ -1154,10 +1184,10 @@ CERTIFICATIONS
       }
       
       matrixInterval = setInterval(() => {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        ctx.fillStyle = currentTheme === 'matrix' ? '#0F0' : '#00ffea';
+        ctx.fillStyle = currentTheme === 'matrix' ? '#00ff00' : '#00ffea';
         ctx.font = fontSize + 'px monospace';
         
         for (let i = 0; i < drops.length; i++) {
