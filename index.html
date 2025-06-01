@@ -1034,9 +1034,9 @@ CERTIFICATIONS
           
         case 'diary':
           printLine('Öffne Hacker-Tagebuch...', 'success');
-          printLine('Weiterleitung zu hacker-diary.html', 'info');
+          printLine('Neuer Tab wird geöffnet', 'info');
           setTimeout(() => {
-            window.location.href = 'hacker-diary.html';
+            window.open('hacker-diary.html', '_blank');
           }, 1000);
           break;
           
