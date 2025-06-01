@@ -646,9 +646,10 @@
 ║  - whoami      : Zeigt Benutzerinfo                      ║
 ║  - skills      : Zeigt meine Fähigkeiten                 ║
 ║  - contact     : Kontaktinformationen                    ║
+║  - diary       : Öffnet Hacker-Tagebuch                  ║
 ║  - hack        : ???                                      ║
 ║  - matrix      : Aktiviert Matrix-Effekt                  ║
-║  - theme <name>: Wechselt Theme (matrix/cyberpunk/retro) ║
+║  - theme <n>   : Wechselt Theme (matrix/cyberpunk/retro) ║
 ║                                                           ║
 ║  "The only way to learn is to live in the code."         ║
 ╚═══════════════════════════════════════════════════════════╝`
@@ -779,3 +780,480 @@ CERTIFICATIONS
 ✓ CompTIA Security+
 ✓ CEH (Certified Ethical Hacker)
 ⟳ OSCP (In Progress)
+○ OSCE (Planned)
+○ CISSP (Future Goal)`
+      }
+    };
+
+    // Theme Management
+    function changeTheme(themeName) {
+      const validThemes = ['matrix', 'cyberpunk', 'retro'];
+      if (!validThemes.includes(themeName)) {
+        return false;
+      }
+      
+      // Remove all theme classes
+      document.body.className = '';
+      
+      // Add new theme class
+      document.body.classList.add(`theme-${themeName}`);
+      currentTheme = themeName;
+      
+      // Update footer text
+      const footerHighlight = document.querySelector('.footer-text .highlight');
+      if (footerHighlight) {
+        footerHighlight.textContent = `${themeName.toUpperCase()} MODE`;
+      }
+      
+      // Special effects for different themes
+      if (themeName === 'matrix') {
+        toggleMatrix(true);
+      } else {
+        toggleMatrix(false);
+      }
+      
+      return true;
+    }
+
+    // Print line to terminal
+    function printLine(text, className = '') {
+      const line = document.createElement('div');
+      line.className = 'line ' + className;
+      line.textContent = text;
+      output.appendChild(line);
+      output.parentElement.scrollTop = output.parentElement.scrollHeight;
+    }
+
+    // Print HTML content
+    function printHTML(html, className = '') {
+      const line = document.createElement('div');
+      line.className = 'line ' + className;
+      line.innerHTML = html;
+      output.appendChild(line);
+      output.parentElement.scrollTop = output.parentElement.scrollHeight;
+    }
+
+    // Execute command
+    function executeCommand(cmd) {
+      const args = cmd.trim().split(' ');
+      const command = args[0].toLowerCase();
+      
+      printLine(`${prompt.textContent}${cmd}`, 'command');
+      
+      switch(command) {
+        case '':
+          break;
+          
+        case 'help':
+          printLine('Verfügbare Befehle:', 'info');
+          printLine('  help        - Zeigt diese Hilfe');
+          printLine('  ls [dir]    - Listet Dateien und Verzeichnisse');
+          printLine('  cd <dir>    - Wechselt das Verzeichnis');
+          printLine('  cat <file>  - Zeigt Dateiinhalt');
+          printLine('  pwd         - Zeigt aktuelles Verzeichnis');
+          printLine('  clear       - Löscht das Terminal');
+          printLine('  whoami      - Zeigt Benutzerinformationen');
+          printLine('  skills      - Zeigt technische Fähigkeiten');
+          printLine('  contact     - Zeigt Kontaktinformationen');
+          printLine('  date        - Zeigt aktuelles Datum');
+          printLine('  diary       - Öffnet Hacker-Tagebuch');
+          printLine('  hack        - ???');
+          printLine('  matrix      - Aktiviert/Deaktiviert Matrix-Effekt');
+          printLine('  theme <n>   - Wechselt Theme (matrix/cyberpunk/retro)');
+          printLine('');
+          printLine('Terminal Themes:', 'info');
+          printLine('  theme matrix    - Grüner Matrix-Style');
+          printLine('  theme cyberpunk - Pink/Cyan Neon (Standard)');
+          printLine('  theme retro     - Alte CRT-Monitor Effekte');
+          printLine('');
+          printLine('Navigation:', 'info');
+          printLine('  Nutze TAB für Autovervollständigung');
+          printLine('  Nutze ↑/↓ für Command-History');
+          break;
+          
+        case 'theme':
+          if (!args[1]) {
+            printLine('Verfügbare Themes:', 'info');
+            printLine('  matrix    - Grüner Matrix-Style', 'success');
+            printLine('  cyberpunk - Pink/Cyan Neon', 'success');
+            printLine('  retro     - Alte CRT-Monitor Effekte', 'success');
+            printLine('');
+            printLine(`Aktuelles Theme: ${currentTheme}`, 'highlight');
+            printLine('Verwendung: theme <name>', 'info');
+          } else {
+            const themeName = args[1].toLowerCase();
+            if (changeTheme(themeName)) {
+              printLine(`Theme gewechselt zu: ${themeName}`, 'success');
+              if (themeName === 'matrix') {
+                printLine('Welcome to the Matrix...', 'success');
+              } else if (themeName === 'retro') {
+                printLine('Loading retro CRT mode...', 'warning');
+              } else if (themeName === 'cyberpunk') {
+                printLine('Cyberpunk 2077 mode activated!', 'highlight');
+              }
+            } else {
+              printLine(`Theme '${themeName}' nicht gefunden`, 'error');
+              printLine('Verfügbare Themes: matrix, cyberpunk, retro', 'info');
+            }
+          }
+          break;
+          
+        case 'ls':
+          const lsPath = args[1] ? 
+            (args[1].startsWith('~') ? args[1] : `${currentDir}/${args[1]}`.replace('//', '/')) : 
+            currentDir;
+            
+          if (fileSystem[lsPath] && fileSystem[lsPath].type === 'dir') {
+            fileSystem[lsPath].contents.forEach(item => {
+              const itemPath = `${lsPath}/${item}`.replace('//', '/');
+              if (fileSystem[itemPath] && fileSystem[itemPath].type === 'dir') {
+                printHTML(`<span class="highlight">${item}/</span>`);
+              } else {
+                printLine(item, 'success');
+              }
+            });
+          } else {
+            printLine(`ls: ${args[1] || '.'}: Keine Berechtigung oder nicht gefunden`, 'error');
+          }
+          break;
+          
+        case 'cd':
+          if (!args[1] || args[1] === '~') {
+            currentDir = '~';
+            updatePrompt();
+            hideAllSections();
+          } else if (args[1] === '..') {
+            if (currentDir !== '~') {
+              currentDir = '~';
+              updatePrompt();
+              hideAllSections();
+            }
+          } else {
+            const newPath = args[1].startsWith('~') ? args[1] : 
+                           `${currentDir}/${args[1]}`.replace('//', '/');
+            
+            if (fileSystem[newPath] && fileSystem[newPath].type === 'dir') {
+              currentDir = newPath;
+              updatePrompt();
+              updateSections();
+            } else {
+              printLine(`cd: ${args[1]}: Verzeichnis nicht gefunden`, 'error');
+            }
+          }
+          break;
+          
+        case 'cat':
+          if (!args[1]) {
+            printLine('cat: Fehlende Datei', 'error');
+          } else {
+            const filePath = args[1].startsWith('~') ? args[1] : 
+                            `${currentDir}/${args[1]}`.replace('//', '/');
+            
+            if (fileSystem[filePath] && fileSystem[filePath].type === 'file') {
+              printLine(fileSystem[filePath].content, 'info');
+            } else {
+              printLine(`cat: ${args[1]}: Datei nicht gefunden`, 'error');
+            }
+          }
+          break;
+          
+        case 'pwd':
+          printLine(currentDir, 'success');
+          break;
+          
+        case 'clear':
+          output.innerHTML = '';
+          break;
+          
+        case 'whoami':
+          printLine('13Spookz37', 'highlight');
+          printLine('Ethical Hacker & Penetration Tester', 'info');
+          printLine('Location: Deep Web', 'info');
+          printLine('Status: Always learning, always hacking (ethically)', 'info');
+          break;
+          
+        case 'skills':
+          printHTML(`<pre class="highlight">
+╔══════════════════════════════════════════╗
+║           TECHNICAL SKILLS               ║
+╠══════════════════════════════════════════╣
+║ • Web Application Penetration Testing    ║
+║ • Network Security Assessment            ║
+║ • Wireless Security Testing              ║
+║ • Social Engineering                     ║
+║ • Exploit Development                    ║
+║ • Reverse Engineering                    ║
+║ • OSINT & Reconnaissance                 ║
+║ • Cryptography & Steganography           ║
+╚══════════════════════════════════════════╝</pre>`);
+          break;
+          
+        case 'contact':
+          printLine('GitHub: github.com/13Spookz37', 'success');
+          printLine('Email: 13spookz37@protonmail.com', 'success');
+          printLine('Discord: 13Spookz37#1337', 'success');
+          printLine('PGP Key: Available on request', 'info');
+          break;
+          
+        case 'date':
+          printLine(new Date().toString(), 'info');
+          break;
+          
+        case 'diary':
+          printLine('Öffne Hacker-Tagebuch...', 'success');
+          printLine('Weiterleitung zu hacker-diary.html', 'info');
+          setTimeout(() => {
+            window.location.href = 'hacker-diary.html';
+          }, 1000);
+          break;
+          
+        case 'hack':
+          printLine('Initiating hack sequence...', 'warning');
+          setTimeout(() => {
+            printLine('[■□□□□□□□□□] 10%', 'loading');
+            setTimeout(() => {
+              printLine('[■■■□□□□□□□] 30%', 'loading');
+              setTimeout(() => {
+                printLine('[■■■■■□□□□□] 50%', 'loading');
+                setTimeout(() => {
+                  printLine('[■■■■■■■□□□] 70%', 'loading');
+                  setTimeout(() => {
+                    printLine('[■■■■■■■■■□] 90%', 'loading');
+                    setTimeout(() => {
+                      printLine('[■■■■■■■■■■] 100%', 'loading');
+                      printLine('', '');
+                      printLine('ACCESS DENIED!', 'error');
+                      printLine('Nice try, but this is just a simulation ;)', 'warning');
+                      printLine('Remember: Only hack systems you have permission to test!', 'info');
+                    }, 500);
+                  }, 500);
+                }, 500);
+              }, 500);
+            }, 500);
+          }, 1000);
+          break;
+          
+        case 'matrix':
+          const isMatrixActive = toggleMatrix();
+          if (isMatrixActive) {
+            printLine('Matrix-Effekt aktiviert', 'success');
+            printLine('Follow the white rabbit...', 'highlight');
+          } else {
+            printLine('Matrix-Effekt deaktiviert', 'info');
+          }
+          break;
+          
+        default:
+          if (cmd.trim()) {
+            printLine(`bash: ${command}: Befehl nicht gefunden`, 'error');
+            printLine(`Tippe 'help' für verfügbare Befehle`, 'info');
+          }
+      }
+    }
+
+    // Update prompt
+    function updatePrompt() {
+      prompt.textContent = `13Spookz37@cyberpunk:${currentDir}$ `;
+    }
+
+    // Hide all sections
+    function hideAllSections() {
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+      });
+    }
+
+    // Update visible sections based on current directory
+    function updateSections() {
+      hideAllSections();
+      
+      setTimeout(() => {
+        if (currentDir.includes('projects')) {
+          projectsSection.classList.add('active');
+        } else if (currentDir.includes('diary')) {
+          diarySection.classList.add('active');
+        } else if (currentDir.includes('certs')) {
+          certsSection.classList.add('active');
+        }
+      }, 100);
+    }
+
+    // Tab completion
+    function handleTabCompletion() {
+      const currentInput = input.value;
+      const parts = currentInput.split(' ');
+      const lastPart = parts[parts.length - 1];
+      
+      if (parts.length === 1) {
+        // Complete commands
+        const commands = ['help', 'ls', 'cd', 'cat', 'pwd', 'clear', 'whoami', 'skills', 'contact', 'date', 'diary', 'hack', 'matrix', 'theme'];
+        const matches = commands.filter(cmd => cmd.startsWith(lastPart));
+        
+        if (matches.length === 1) {
+          input.value = matches[0];
+        } else if (matches.length > 1) {
+          printLine(`${prompt.textContent}${currentInput}`, 'command');
+          matches.forEach(match => printLine(match, 'info'));
+        }
+      } else if (parts[0] === 'cd' || parts[0] === 'cat' || parts[0] === 'ls') {
+        // Complete file/directory names
+        const searchPath = currentDir;
+        if (fileSystem[searchPath] && fileSystem[searchPath].contents) {
+          const matches = fileSystem[searchPath].contents.filter(item => 
+            item.startsWith(lastPart)
+          );
+          
+          if (matches.length === 1) {
+            parts[parts.length - 1] = matches[0];
+            input.value = parts.join(' ');
+          } else if (matches.length > 1) {
+            printLine(`${prompt.textContent}${currentInput}`, 'command');
+            matches.forEach(match => printLine(match, 'info'));
+          }
+        }
+      }
+    }
+
+    // Matrix effect
+    let matrixInterval;
+    let matrixActive = false;
+    
+    function toggleMatrix(forceState = null) {
+      const canvas = document.getElementById('matrix-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      if (forceState !== null) {
+        matrixActive = forceState;
+      } else {
+        matrixActive = !matrixActive;
+      }
+      
+      if (matrixInterval) {
+        clearInterval(matrixInterval);
+        matrixInterval = null;
+      }
+      
+      if (!matrixActive) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        return false;
+      }
+      
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?~アカサタナハマヤラワ';
+      const fontSize = 14;
+      const columns = canvas.width / fontSize;
+      const drops = [];
+      
+      for (let i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
+      
+      matrixInterval = setInterval(() => {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = currentTheme === 'matrix' ? '#0F0' : '#00ffea';
+        ctx.font = fontSize + 'px monospace';
+        
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }, 33);
+      
+      return true;
+    }
+
+    // Initialize terminal
+    function init() {
+      printHTML(`<pre class="ascii-art">
+ ▄█  ▄▄▄▄▄   ▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄▄   ▄▄▄▄▄  ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ 
+███ ▀▀▀▀▀▀█ ▀▀▀▀▀▀█ ▀▀▀▀▀▀██ ▀▀▀▀▀▀██ ▀▀▀▀▀▀██ ▀▀▀▀▀██ ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀ 
+ ▀█       █▄       █       ██       ██       ██      ██                 
+  █▄▄▄▄▄▄▄█ ▄▄▄▄▄▄█  ██▄▄▄█▀  ██▄▄▄█▀  ██▄▄▄█▀ ██▄▄▄█▀ ▄▄▄▄▄▄   ▄▄▄▄▄ 
+  ▄▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█  ██▀▀▀▀   ██▀▀▀▀   ██▀▀▀▀  ██▀▀▀▀  ▀▀▀▀▀▀█  ▀▀▀▀█ 
+ █▀       ▀█       █  ██       ██       ██      ██             █      █ 
+███▄▄▄▄▄▄█▀ ▄▄▄▄▄▄█  ██       ██▄▄▄▄▄  ██      ██▄▄▄▄▄ ▄▄▄▄▄▄▄█  ▄▄▄█▀ 
+ ▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀  ▀▀       ▀▀▀▀▀▀▀  ▀▀      ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀  ▀▀▀▀  
+                    [ CYBERPUNK TERMINAL v2.0 ]</pre>`);
+      printLine('');
+      printLine('System initialisiert...', 'success');
+      printLine('Willkommen zurück, 13Spookz37', 'highlight');
+      printLine('Letzte Anmeldung: ' + new Date().toLocaleString(), 'info');
+      printLine('');
+      printLine('Tippe "help" für verfügbare Befehle oder "cat README.txt" für mehr Info.', 'info');
+      printLine('');
+    }
+
+    // Event listeners
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const cmd = input.value;
+        if (cmd.trim()) {
+          commandHistory.push(cmd);
+          historyIndex = commandHistory.length;
+          executeCommand(cmd);
+        }
+        input.value = '';
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (historyIndex > 0) {
+          historyIndex--;
+          input.value = commandHistory[historyIndex] || '';
+        }
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (historyIndex < commandHistory.length - 1) {
+          historyIndex++;
+          input.value = commandHistory[historyIndex] || '';
+        } else {
+          historyIndex = commandHistory.length;
+          input.value = '';
+        }
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        handleTabCompletion();
+      }
+    });
+
+    // Keep focus on input
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('a')) {
+        input.focus();
+      }
+    });
+
+    // Prevent form submission
+    input.closest('form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+    });
+
+    // Window resize handler
+    window.addEventListener('resize', () => {
+      const canvas = document.getElementById('matrix-canvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      init();
+      input.focus();
+    });
+
+    // Also init if script runs after DOM is loaded
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      init();
+      input.focus();
+    }
+  </script>
+</body>
+</html>
