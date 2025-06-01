@@ -6,7 +6,7 @@
   <title>13Spookz37 - My Ethical Hacking Journey</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300ffcc'><path d='M12 2L2 7L12 12L22 7L12 2M2 17L12 22L22 17M2 12L12 17L22 12'/></svg>">
   <style>
     * {
       margin: 0;
@@ -430,6 +430,8 @@
 
     .future-panel {
       cursor: not-allowed;
+      opacity: 0.3;
+      filter: grayscale(100%);
     }
 
     .future-panel .panel-image {
@@ -555,258 +557,6 @@
             <span class="skill-tag">Nmap Basics</span>
             <span class="skill-tag">Metasploit Basics</span>
             <span class="skill-tag">Cryptography Basics</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Woche 8 -->
-    <div class="manga-panel" id="latest">
-      <div class="panel-container">
-        <div class="panel-date">Woche 8</div>
-        <div class="panel-image">
-          <img src="images/Woche8.png" alt="Woche 8">
-          <div class="action-lines"></div>
-          <div class="sound-effect" style="top: 20px; left: 20px;">EVOLVE!</div>
-        </div>
-        <div class="panel-content">
-          <h3 class="panel-title">Kontinuität</h3>
-          <div class="speech-bubble">
-            <p class="speech-text">
-              "Ich habe mir inzwischen eigene Testumgebungen eingerichtet – Metasploitable 2 und 3 laufen, und sogar das Mr. Robot-Lab steht bereit.
-                Meine Erfolge sind noch klein, aber sie kommen. Schritt für Schritt.
-                  Ich dokumentiere alles, was ich mache – irgendwann werde ich das veröffentlichen.
-                Aber erstmal bleibe ich dran und haue weiter in die Tasten.
-                  Sogar auf der Arbeit nutze ich AnkiDroid mit CheatSheets, um nebenbei zu lernen.
-                Das hilft mir, den Kopf fit zu halten und auch tagsüber in der Materie zu bleiben."
-            </p>
-            <p class="thought-text">
-              *Lernen endet nicht, nur weil die Schicht vorbei ist.*
-            </p>
-          </div>
-          <div class="skill-tags">
-            <span class="skill-tag">John the Ripper Basics</span>
-            <span class="skill-tag">Web Application Basics</span>
-            <span class="skill-tag">Burp Suite Basics</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chapter-divider">
-      <h2>Die Journey geht weiter...</h2>
-    </div>
-    
-    <!-- Zukünftige Wochen Template -->
-    <div class="future-weeks" id="future-weeks">
-      <h3 style="text-align: center; color: #666; margin: 3rem 0;">
-        <i class="fas fa-lock"></i> Zukünftige Einträge - Werden wöchentlich freigeschaltet
-      </h3>
-    </div>
-  </div>
-
-  <!-- Background Audio -->
-  <audio id="bgMusic" loop>
-    <source src="sounds/lofi-hacking.mp3" type="audio/mp3">
-    <!-- Fallback: Lade lokale Datei wenn vorhanden -->
-  </audio>
-  
-  <!-- Sound Effects -->
-  <audio id="clickSound" preload="auto">
-    <source src="sounds/click.wav" type="audio/wav">
-  </audio>
-  
-  <script>
-    // Loading Screen
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loading').style.display = 'none';
-      }, 1500);
-    });
-
-    // Smooth Scroll
-    function scrollToChapter(chapterId) {
-      document.getElementById(chapterId).scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-
-    // Sound Toggle
-    let soundEnabled = false;
-    function toggleSound() {
-      const audio = document.getElementById('bgMusic');
-      const icon = document.getElementById('sound-icon');
-      
-      if (soundEnabled) {
-        audio.pause();
-        icon.className = 'fas fa-volume-mute';
-      } else {
-        audio.play().catch(e => console.log('Audio play failed:', e));
-        icon.className = 'fas fa-volume-up';
-      }
-      soundEnabled = !soundEnabled;
-    }
-
-    // Play click sound
-    function playClickSound() {
-      if (soundEnabled) {
-        const click = document.getElementById('clickSound');
-        click.currentTime = 0;
-        click.play().catch(e => console.log('Click sound failed:', e));
-      }
-    }
-
-    // Intersection Observer for Animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.animationPlayState = 'running';
-        }
-      });
-    }, { threshold: 0.5 });
-
-    document.querySelectorAll('.manga-panel').forEach(panel => {
-      panel.style.animationPlayState = 'paused';
-      observer.observe(panel);
-    });
-
-    // Dynamic Sound Effects with Click Sound
-    document.querySelectorAll('.panel-image').forEach(panel => {
-      panel.addEventListener('click', () => {
-        playClickSound();
-        const effects = ['BOOM!', 'ZAP!', 'CRACK!', 'HACK!', 'BREACH!', 'PWNED!', 'ROOT!'];
-        const effect = effects[Math.floor(Math.random() * effects.length)];
-        
-        const soundDiv = document.createElement('div');
-        soundDiv.className = 'sound-effect';
-        soundDiv.textContent = effect;
-        soundDiv.style.top = Math.random() * 80 + '%';
-        soundDiv.style.left = Math.random() * 80 + '%';
-        
-        panel.appendChild(soundDiv);
-        
-        setTimeout(() => soundDiv.remove(), 1000);
-      });
-    });
-
-    // Generate future weeks (Week 9-52)
-    function generateFutureWeeks() {
-      const futureContainer = document.getElementById('future-weeks');
-      const startDate = new Date('2025-01-01');
-      
-      for (let week = 9; week <= 52; week++) {
-        const weekDate = new Date(startDate);
-        weekDate.setDate(weekDate.getDate() + (week - 1) * 7);
-        
-        const panel = document.createElement('div');
-        panel.className = 'manga-panel future-panel';
-        panel.style.opacity = '0.3';
-        panel.style.filter = 'grayscale(100%)';
-        
-        panel.innerHTML = `
-          <div class="panel-container">
-            <div class="panel-date">Woche ${week} - ${weekDate.toLocaleDateString('de-DE')}</div>
-            <div class="panel-image">
-              <img src="images/Coming_Soon.png" alt="Woche ${week} - Coming Soon">
-              <div class="lock-overlay">
-                <i class="fas fa-lock" style="font-size: 3rem; color: #666;"></i>
-              </div>
-            </div>
-            <div class="panel-content">
-              <h3 class="panel-title">Woche ${week} - ???</h3>
-              <div class="speech-bubble">
-                <p class="speech-text">
-                  Diese Woche wird freigeschaltet, sobald ich sie erlebe...
-                </p>
-                <p class="thought-text">
-                  *Stay tuned!*
-                </p>
-              </div>
-              <div class="skill-tags">
-                <span class="skill-tag">???</span>
-              </div>
-            </div>
-          </div>
-        `;
-        
-        futureContainer.appendChild(panel);
-      }
-    }
-
-    // Check if current week should be unlocked
-    function checkCurrentWeek() {
-      const startDate = new Date('2025-01-01');
-      const currentDate = new Date();
-      const weeksPassed = Math.floor((currentDate - startDate) / (7 * 24 * 60 * 60 * 1000)) + 1;
-      
-      // Update progress bar
-      const progressBar = document.querySelector('.progress-bar');
-      const progressText = document.querySelector('.progress-text');
-      const progress = Math.min((weeksPassed / 52) * 100, 100);
-      
-      progressBar.style.width = progress + '%';
-      progressText.textContent = `Woche ${Math.min(weeksPassed, 52)} von 52 (${progress.toFixed(1)}%)`;
-      
-      // Unlock weeks up to current week
-      document.querySelectorAll('.future-panel').forEach((panel, index) => {
-        const weekNumber = index + 9;
-        if (weekNumber <= weeksPassed) {
-          panel.style.opacity = '1';
-          panel.style.filter = 'none';
-          panel.querySelector('.lock-overlay').style.display = 'none';
-        }
-      });
-    }
-
-    // Keyboard Navigation
-    document.addEventListener('keydown', (e) => {
-      switch(e.key) {
-        case 'Escape':
-          window.location.href = '/';
-          break;
-        case 'ArrowLeft':
-          // Navigate to previous week
-          break;
-        case 'ArrowRight':
-          // Navigate to next week
-          break;
-        case ' ':
-          e.preventDefault();
-          toggleSound();
-          break;
-      }
-    });
-
-    // Initialize
-    window.addEventListener('DOMContentLoaded', () => {
-      generateFutureWeeks();
-      checkCurrentWeek();
-      
-      // Re-attach click handlers after generating future weeks
-      document.querySelectorAll('.panel-image').forEach(panel => {
-        panel.addEventListener('click', () => {
-          playClickSound();
-          const effects = ['BOOM!', 'ZAP!', 'CRACK!', 'HACK!', 'BREACH!', 'PWNED!', 'ROOT!'];
-          const effect = effects[Math.floor(Math.random() * effects.length)];
-          
-          const soundDiv = document.createElement('div');
-          soundDiv.className = 'sound-effect';
-          soundDiv.textContent = effect;
-          soundDiv.style.top = Math.random() * 80 + '%';
-          soundDiv.style.left = Math.random() * 80 + '%';
-          
-          panel.appendChild(soundDiv);
-          
-          setTimeout(() => soundDiv.remove(), 1000);
-        });
-      });
-    });
-  </script>
-</body>
-</html>="skill-tag">Beharrlichkeit</span>
-            <span class="skill-tag">Ausdauer</span>
-            <span class="skill-tag">Wissbegierde</span>
           </div>
         </div>
       </div>
@@ -999,4 +749,225 @@
               *Selbst kleine Schritte sind Fortschritt*
             </p>
           </div>
-          <div class
+          <div class="skill-tags">
+            <span class="skill-tag">Nmap</span>
+            <span class="skill-tag">Google Cybersecurity</span>
+            <span class="skill-tag">TryHackMe</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Woche 8 -->
+    <div class="manga-panel" id="latest">
+      <div class="panel-container">
+        <div class="panel-date">Woche 8</div>
+        <div class="panel-image">
+          <img src="images/Woche8.png" alt="Woche 8">
+          <div class="action-lines"></div>
+          <div class="sound-effect" style="top: 20px; left: 20px;">EVOLVE!</div>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-title">Kontinuität</h3>
+          <div class="speech-bubble">
+            <p class="speech-text">
+              "Ich habe mir inzwischen eigene Testumgebungen eingerichtet – Metasploitable 2 und 3 laufen, und sogar das Mr. Robot-Lab steht bereit.
+                Meine Erfolge sind noch klein, aber sie kommen. Schritt für Schritt.
+                  Ich dokumentiere alles, was ich mache – irgendwann werde ich das veröffentlichen.
+                Aber erstmal bleibe ich dran und haue weiter in die Tasten.
+                  Sogar auf der Arbeit nutze ich AnkiDroid mit CheatSheets, um nebenbei zu lernen.
+                Das hilft mir, den Kopf fit zu halten und auch tagsüber in der Materie zu bleiben."
+            </p>
+            <p class="thought-text">
+              *Lernen endet nicht, nur weil die Schicht vorbei ist.*
+            </p>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">John the Ripper Basics</span>
+            <span class="skill-tag">Web Application Basics</span>
+            <span class="skill-tag">Burp Suite Basics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-divider">
+      <h2>Die Journey geht weiter...</h2>
+    </div>
+    
+    <!-- Zukünftige Wochen Container -->
+    <div class="future-weeks" id="future-weeks">
+      <!-- Dynamisch generierte Wochen werden hier eingefügt -->
+    </div>
+  </div>
+
+  <!-- Background Audio -->
+  <audio id="bgMusic" loop>
+    <source src="sounds/lofi-hacking.mp3" type="audio/mp3">
+  </audio>
+  
+  <!-- Sound Effects -->
+  <audio id="clickSound" preload="auto">
+    <source src="sounds/click.wav" type="audio/wav">
+  </audio>
+  
+  <script>
+    // Konfiguration für fertige Wochen
+    const COMPLETED_WEEKS = 8; // Anzahl der fertigen Wochen
+    const PREVIEW_WEEKS = 2; // Anzahl der "Coming Soon" Wochen die sichtbar sind
+
+    // Loading Screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+      }, 1500);
+    });
+
+    // Smooth Scroll
+    function scrollToChapter(chapterId) {
+      document.getElementById(chapterId).scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    // Sound Toggle
+    let soundEnabled = false;
+    function toggleSound() {
+      const audio = document.getElementById('bgMusic');
+      const icon = document.getElementById('sound-icon');
+      
+      if (soundEnabled) {
+        audio.pause();
+        icon.className = 'fas fa-volume-mute';
+      } else {
+        audio.play().catch(e => console.log('Audio play failed:', e));
+        icon.className = 'fas fa-volume-up';
+      }
+      soundEnabled = !soundEnabled;
+    }
+
+    // Play click sound
+    function playClickSound() {
+      if (soundEnabled) {
+        const click = document.getElementById('clickSound');
+        click.currentTime = 0;
+        click.play().catch(e => console.log('Click sound failed:', e));
+      }
+    }
+
+    // Intersection Observer for Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.manga-panel').forEach(panel => {
+      panel.style.animationPlayState = 'paused';
+      observer.observe(panel);
+    });
+
+    // Generate future weeks (nur die nächsten PREVIEW_WEEKS)
+    function generateFutureWeeks() {
+      const futureContainer = document.getElementById('future-weeks');
+      
+      // Nur die nächsten PREVIEW_WEEKS nach den fertigen Wochen anzeigen
+      for (let week = COMPLETED_WEEKS + 1; week <= COMPLETED_WEEKS + PREVIEW_WEEKS; week++) {
+        if (week > 52) break; // Nicht über 52 Wochen hinaus
+        
+        const panel = document.createElement('div');
+        panel.className = 'manga-panel future-panel';
+        
+        panel.innerHTML = `
+          <div class="panel-container">
+            <div class="panel-date">Woche ${week}</div>
+            <div class="panel-image">
+              <img src="images/Coming_Soon.png" alt="Woche ${week} - Coming Soon">
+              <div class="lock-overlay">
+                <i class="fas fa-lock" style="font-size: 3rem; color: #666;"></i>
+              </div>
+            </div>
+            <div class="panel-content">
+              <h3 class="panel-title">Woche ${week} - Coming Soon</h3>
+              <div class="speech-bubble">
+                <p class="speech-text">
+                  Diese Woche wird freigeschaltet, sobald ich sie erlebe...
+                </p>
+                <p class="thought-text">
+                  *Stay tuned!*
+                </p>
+              </div>
+              <div class="skill-tags">
+                <span class="skill-tag">???</span>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        futureContainer.appendChild(panel);
+      }
+    }
+
+    // Update progress bar based on completed weeks
+    function updateProgress() {
+      const progressBar = document.querySelector('.progress-bar');
+      const progressText = document.querySelector('.progress-text');
+      const progress = (COMPLETED_WEEKS / 52) * 100;
+      
+      progressBar.style.width = progress + '%';
+      progressText.textContent = `Woche ${COMPLETED_WEEKS} von 52 (${progress.toFixed(1)}%)`;
+    }
+
+    // Dynamic Sound Effects with Click Sound
+    document.addEventListener('DOMContentLoaded', () => {
+      // Attach click handlers to all panel images (including future ones)
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.panel-image')) {
+          playClickSound();
+          const panelImage = e.target.closest('.panel-image');
+          const effects = ['BOOM!', 'ZAP!', 'CRACK!', 'HACK!', 'BREACH!', 'PWNED!', 'ROOT!'];
+          const effect = effects[Math.floor(Math.random() * effects.length)];
+          
+          const soundDiv = document.createElement('div');
+          soundDiv.className = 'sound-effect';
+          soundDiv.textContent = effect;
+          soundDiv.style.top = Math.random() * 80 + '%';
+          soundDiv.style.left = Math.random() * 80 + '%';
+          
+          panelImage.appendChild(soundDiv);
+          
+          setTimeout(() => soundDiv.remove(), 1000);
+        }
+      });
+    });
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      switch(e.key) {
+        case 'Escape':
+          window.location.href = '/';
+          break;
+        case 'ArrowLeft':
+          // Navigate to previous week
+          break;
+        case 'ArrowRight':
+          // Navigate to next week
+          break;
+        case ' ':
+          e.preventDefault();
+          toggleSound();
+          break;
+      }
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      generateFutureWeeks();
+      updateProgress();
+    });
+  </script>
+</body>
+</html>
